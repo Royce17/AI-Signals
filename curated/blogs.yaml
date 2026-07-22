@@ -1,18 +1,14 @@
 # Curated Independent Blog Sources
-# Non-Substack blogs with RSS/Atom feeds. Uncomment to track.
+# Non-Substack blogs with RSS/Atom feeds.
 
 sources:
 
-  # ── AI / LLM (Technical Depth) ──
-
-  # ⭐ Lilian Weng — Former OpenAI safety VP. Deep technical posts on RL, agents, LLMs.
+  # Lilian Weng — Former OpenAI safety VP. Deep technical posts on RL, agents, LLMs.
   # - name: "Lilian Weng"
   #   blog: "https://lilianweng.github.io/index.xml"
   #   tags: [ai, llm, rl, agents, scaling-laws]
 
-  # ── Deep Tech Interviews ──
-
-  # ⭐ Dwarkesh Patel — In-depth interviews with AI and science pioneers
+  # Dwarkesh Patel — In-depth interviews with AI pioneers and scientists
   # - name: "Dwarkesh Patel"
   #   blog: "https://www.dwarkesh.com/feed.xml"
   #   tags: [ai, podcasts, interviews, science]
