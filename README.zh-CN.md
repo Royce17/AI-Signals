@@ -36,7 +36,16 @@ export HTTPS_PROXY=http://127.0.0.1:7897
 
 ## 添加信息源
 
-编辑 `sources.yaml`：
+**推荐用精选列表快速开始：** `curated/` 目录下有按主题分类的推荐源，取消注释即可启用。
+
+```bash
+ls curated/
+# substack.yaml    — AI/LLM、AI Infra、AI 安全等
+# blogs.yaml       — 独立博客（Lilian Weng、Dwarkesh 等）
+# xiaoyuzhou.yaml  — AI 深度访谈、AI 产业、AI 创投等
+```
+
+将想要追踪的源取消注释，复制到 `sources.yaml`。也可以直接编辑 `sources.yaml`：
 
 ```yaml
 sources:

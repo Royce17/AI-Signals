@@ -38,7 +38,16 @@ export HTTPS_PROXY=http://127.0.0.1:7897
 
 ## Adding Sources
 
-Edit `sources.yaml`:
+**Recommended: use the curated lists** in `curated/` to get started fast. Just uncomment the sources you want.
+
+```bash
+ls curated/
+# substack.yaml    — AI/LLM, AI Infra, AI Safety
+# blogs.yaml       — Independent blogs (Lilian Weng, Dwarkesh)
+# xiaoyuzhou.yaml  — AI deep interviews, AI industry, AI startups
+```
+
+Uncomment and copy to `sources.yaml`, or edit `sources.yaml` directly:
 
 ```yaml
 sources:

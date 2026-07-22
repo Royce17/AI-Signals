@@ -1,0 +1,48 @@
+# Curated Xiaoyuzhou (小宇宙) Podcast Sources
+# Uncomment the ones you want to track. Copy to ../sources.yaml or merge manually.
+#
+# Xiaoyuzhou requires one-time SMS login:
+#   bun run scripts/login-xiaoyuzhou.mjs
+#
+# Podcast PID is the string after /podcast/ in the URL.
+# e.g. https://www.xiaoyuzhoufm.com/podcast/626b46ea9cbbf0451cf5a962
+
+sources:
+
+  # ── AI 深度访谈 / AI Deep Interviews ──
+
+  # ⭐ 张小珺Jùn｜商业访谈录 — 2-7小时长对话，覆盖AI、自动驾驶、机器人、半导体
+  # - name: "张小珺Jùn｜商业访谈录"
+  #   xiaoyuzhou: "626b46ea9cbbf0451cf5a962"
+  #   tags: [ai, deep-tech, business, china]
+
+  # ⭐ 十字路口Crossing — Koji主持，AI与商业交叉话题，Agent、Coding、创业
+  # - name: "十字路口Crossing"
+  #   xiaoyuzhou: "60502e253c92d4f62c2a9577"
+  #   tags: [ai, agents, coding, startups]
+
+  # ── AI 技术与产业 / AI Tech & Industry ──
+
+  # 硅谷101 — 深度科技访谈，覆盖AI、自动驾驶、芯片、创投
+  # - name: "硅谷101"
+  #   xiaoyuzhou: "5f0a5e5b8b0b5c0001c0e1a7"
+  #   tags: [ai, silicon-valley, self-driving, chips, vc]
+
+  # 量子位 — AI前沿资讯和技术解读
+  # - name: "量子位"
+  #   xiaoyuzhou: "5f0a5e5b8b0b5c0001c0e19a"
+  #   tags: [ai, news, china]
+
+  # ── AI 创业与投资 / AI Startups & VC ──
+
+  # 42章经 — AI创投方法论，商业模式分析
+  # - name: "42章经"
+  #   xiaoyuzhou: "5e0a5e5b8b0b5c0001c0e123"
+  #   tags: [ai, startups, vc, business-model]
+
+  # ── AI 与人文 / AI & Humanities ──
+
+  # 不合时宜 — AI时代的文化、社会与个体
+  # - name: "不合时宜"
+  #   xiaoyuzhou: "5eaa413e0ba0ea3268fb1e94"
+  #   tags: [ai, society, culture, china]

@@ -1,0 +1,64 @@
+# Curated Substack Sources
+# Uncomment the ones you want to track. Copy to ../sources.yaml or merge manually.
+#
+# Organized by topic. Sources with ⭐ are especially recommended.
+
+sources:
+
+  # ── AI / LLM (Technical Depth) ──
+
+  # ⭐ Fei-Fei Li — Spatial intelligence, world models, AI policy
+  # - name: "Fei-Fei Li"
+  #   substack: "drfeifei"
+  #   tags: [ai, spatial-intelligence, world-models]
+
+  # ⭐ Sebastian Raschka — Ahead of AI: LLM engineering, coding agents, paper reviews
+  # - name: "Sebastian Raschka"
+  #   substack: "sebastianraschka"
+  #   tags: [ai, llm, deep-learning, coding-agents]
+
+  # Andrej Karpathy — Former Tesla/OpenAI AI lead. Infrequent but essential.
+  # - name: "Andrej Karpathy"
+  #   substack: "karpathy"
+  #   tags: [ai, llm, agi, education]
+
+  # Jay Alammar — Visual explanations of LLMs, transformers, NeurIPS reviews
+  # - name: "Jay Alammar"
+  #   substack: "languagemodels"
+  #   tags: [ai, llm, transformers, visualization]
+
+  # ── AI Infra / Agents ──
+
+  # ⭐ Nathan Lambert — Interconnects: frontier post-training, RLHF, open-source AI
+  # - name: "Nathan Lambert"
+  #   substack: "interconnects"
+  #   tags: [ai, rlhf, open-source, post-training]
+
+  # Latent.Space — The AI Engineer newsletter: models, agents, infra
+  # - name: "Latent.Space"
+  #   substack: "latentspace"
+  #   tags: [ai, agents, models, engineering]
+
+  # ── AI Industry / Policy ──
+
+  # ⭐ Jack Clark — Import AI: weekly AI intelligence by Anthropic co-founder
+  # - name: "Jack Clark"
+  #   substack: "importai"
+  #   tags: [ai, policy, industry, anthropic]
+
+  # Zara Zhang — AI investing, China-US tech, learning
+  # - name: "Zara Zhang"
+  #   substack: "zarazhang"
+  #   tags: [ai, investing, china, learning]
+
+  # ── Deep Tech Interviews ──
+
+  # Dwarkesh Patel — In-depth interviews with AI pioneers (not Substack, use blog field)
+  # See curated/blogs.yaml
+
+  # ── AI Safety ──
+
+  # Johannes Gasteiger — AI safety paper highlights, frontier interpretability
+  # - name: "Johannes Gasteiger"
+  #   substack: "aisafetyfrontier"
+  #   tags: [ai, safety, interpretability]

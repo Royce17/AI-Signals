@@ -1,6 +1,8 @@
 # Source list for SourceFetch
 # One source per entry. Only platforms with values will be fetched.
 #
+# 💡 Check curated/ for pre-made lists organized by topic.
+#
 # Platform fields:
 #   substack:    Substack subdomain (drfeifei → drfeifei.substack.com)
 #   blog:        Full RSS/Atom feed URL

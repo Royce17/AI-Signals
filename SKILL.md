@@ -41,7 +41,13 @@ bun run scripts/fetch.mjs --dry
 
 ## Adding Sources
 
-Edit `sources.yaml`:
+Curated lists in `curated/` directory — organized by topic, just uncomment:
+
+- `curated/substack.yaml` — AI/LLM, AI Infra, AI Safety
+- `curated/blogs.yaml` — Independent blogs
+- `curated/xiaoyuzhou.yaml` — AI deep interviews, AI industry
+
+Or edit `sources.yaml` directly:
 
 ```yaml
 sources:
