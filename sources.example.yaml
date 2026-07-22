@@ -1,14 +1,14 @@
-# 高质量信息源列表
-# 每行一个源，支持多平台。只有填了对应字段才会抓取。
+# Source list for SourceFetch
+# One source per entry. Only platforms with values will be fetched.
 #
-# 平台字段:
-#   substack:    Substack 子域名 (drfeifei → drfeifei.substack.com)
-#   blog:        独立博客 RSS/Atom feed URL
-#   xiaoyuzhou:  小宇宙播客 PID (从播客主页 URL 中提取)
-#   twitter:     预留，暂未实现
+# Platform fields:
+#   substack:    Substack subdomain (drfeifei → drfeifei.substack.com)
+#   blog:        Full RSS/Atom feed URL
+#   xiaoyuzhou:  Xiaoyuzhou FM podcast PID (from podcast page URL)
+#   twitter:     Reserved, not yet implemented
 
 sources:
-  - name: "李飞飞"
+  - name: "Fei-Fei Li"
     substack: "drfeifei"
     tags: [ai, spatial-intelligence]
 
@@ -32,7 +32,7 @@ sources:
     substack: "zarazhang"
     tags: [ai, investing, china]
 
-  # 小宇宙播客（需要先登录: bun run scripts/login-xiaoyuzhou.mjs）
+  # Xiaoyuzhou podcasts (login first: bun run scripts/login-xiaoyuzhou.mjs)
   # - name: "张小珺｜商业访谈录"
   #   xiaoyuzhou: "626b46ea9cbbf0451cf5a962"
   #   tags: [ai, tech, podcast]

@@ -1,26 +1,26 @@
 ---
 name: sourcefetch
-description: Fetch high-quality AI blogs and podcasts from Substack, Xiaoyuzhou FM, and RSS feeds. Supports tracking Li Feifei, Karpathy, Lilian Weng, Sebastian Raschka, and more. Use when user wants to fetch or track AI thought leaders' content.
+description: Fetch high-quality AI blogs and podcasts from Substack, Xiaoyuzhou FM, and RSS feeds. Supports tracking Fei-Fei Li, Karpathy, Lilian Weng, Sebastian Raschka, and more. Use when user wants to fetch or track AI thought leaders' content.
 ---
 
 # SourceFetch
 
-一键抓取 AI 领域高质量信息源的博客和播客，支持 Substack、独立博客 RSS、小宇宙播客。
+Fetch high-quality AI blogs and podcasts from Substack, independent blog RSS feeds, and Xiaoyuzhou FM (with official transcripts).
 
 ## Setup
 
 ```bash
 cd sourcefetch
-bun install   # 或 npm install
-cp sources.example.yaml sources.yaml   # 编辑你的源列表
+bun install   # or npm install
+cp sources.example.yaml sources.yaml   # edit your source list
 ```
 
-小宇宙播客需要登录一次（获取逐字稿和全量历史）：
+Xiaoyuzhou podcasts require a one-time login (for transcripts and full history):
 ```bash
 bun run scripts/login-xiaoyuzhou.mjs
 ```
 
-Substack 等海外源需要代理：
+For sources behind GFW (Substack etc.), set a proxy:
 ```bash
 export HTTPS_PROXY=http://127.0.0.1:7897
 ```
@@ -28,34 +28,34 @@ export HTTPS_PROXY=http://127.0.0.1:7897
 ## Usage
 
 ```bash
-# 抓取所有源（增量，自动去重）
+# Fetch all sources (incremental, auto dedup)
 bun run scripts/fetch.mjs
 
-# 只抓特定平台
+# Single platform
 bun run scripts/fetch.mjs --platform xiaoyuzhou
 bun run scripts/fetch.mjs --platform substack
 
-# 预览模式
+# Dry run (preview only)
 bun run scripts/fetch.mjs --dry
 ```
 
-## 添加信息源
+## Adding Sources
 
-编辑 `sources.yaml`：
+Edit `sources.yaml`:
 
 ```yaml
 sources:
-  - name: "李飞飞"
+  - name: "Fei-Fei Li"
     substack: "drfeifei"
     tags: [ai, spatial-intelligence]
 
-  - name: "张小珺｜商业访谈录"
-    xiaoyuzhou: "626b46ea9cbbf0451cf5a962"
-    tags: [ai, podcast]
+  - name: "Lilian Weng"
+    blog: "https://lilianweng.github.io/index.xml"
+    tags: [ai, llm, agents]
 ```
 
-支持的平台字段：`substack`（子域名）、`blog`（完整 RSS URL）、`xiaoyuzhou`（播客 PID）。
+Supported fields: `substack` (subdomain), `blog` (full RSS URL), `xiaoyuzhou` (podcast PID).
 
-## 输出
+## Output
 
-内容存入 `./raw/social/{platform}/{source}/`，Markdown + YAML frontmatter，可直接被 LLM wiki ingest 流程使用。
+Content saved to `./raw/social/{platform}/{source}/` as Markdown with YAML frontmatter, ready for LLM wiki ingest.
