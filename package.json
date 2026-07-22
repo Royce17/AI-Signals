@@ -7,8 +7,18 @@
     "sourcefetch": "./scripts/fetch.mjs"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "jsdom": "^29.1.1",
+    "roughjs": "^4.6.6",
+    "sharp": "^0.35.3"
   },
-  "keywords": ["ai", "podcast", "substack", "rss", "xiaoyuzhou", "knowledge-base"],
+  "keywords": [
+    "ai",
+    "podcast",
+    "substack",
+    "rss",
+    "xiaoyuzhou",
+    "knowledge-base"
+  ],
   "license": "MIT"
 }

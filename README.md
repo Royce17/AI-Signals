@@ -2,6 +2,8 @@
 
 > [中文文档](README.zh-CN.md)
 
+<img src="banner.png" alt="SourceFetch banner" width="100%">
+
 Fetch high-quality AI blogs and podcasts into your local Markdown knowledge base.
 
 Supports **Substack**, **independent blog RSS feeds**, and **Xiaoyuzhou FM podcasts** (with official word-for-word transcripts, not local Whisper).

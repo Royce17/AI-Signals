@@ -1,289 +1,128 @@
-#!/usr/bin/env bun
 /**
- * Generate an Excalidraw banner for SourceFetch.
- * Outputs banner.excalidraw — open at https://excalidraw.com
+ * Generate hand-drawn SourceFetch banner as PNG.
+ * Pure SVG with displacement filter — no DOM needed.
+ *
+ * Usage:
+ *   node scripts/generate-banner.mjs
  */
+
+import sharp from 'sharp';
+import { writeFileSync } from 'fs';
+
+const W = 1000;
+const H = 420;
+const BG = '#fafafa';
+const FONT = 'Comic Sans MS, Caveat, Segoe Print, cursive, sans-serif';
+
+// Hand-drawn SVG filter
+const FILTER = `
+  <filter id="rough" x="-2%" y="-2%" width="104%" height="104%">
+    <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3" result="noise" seed="42"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="rough-line" x="-2%" y="-2%" width="104%" height="104%">
+    <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="2" result="noise" seed="7"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+`;
+
+function box(id, x, y, w, h, stroke, fill) {
+  return `<g filter="url(#rough-line)">
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" ry="6"
+      fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+  </g>`;
+}
+
+function line(id, x1, y1, x2, y2, stroke = '#555') {
+  return `<g filter="url(#rough-line)">
+    <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="2" stroke-linecap="round"/>
+  </g>`;
+}
+
+function arrowHead(id, x, y, dir, stroke = '#555') {
+  if (dir === 'right') {
+    return `<polygon points="${x-6},${y-5} ${x},${y} ${x-6},${y+5}" fill="${stroke}" filter="url(#rough)"/>`;
+  }
+  return '';
+}
+
+function text(x, y, content, size, color = '#1e1e1e', opts = {}) {
+  const { bold, opacity } = opts;
+  const weight = bold ? 'font-weight="bold"' : '';
+  const alpha = opacity ? `opacity="${opacity}"` : '';
+  const esc = content.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  return `<text x="${x}" y="${y}" font-size="${size}" font-family="${FONT}" fill="${color}" ${weight} ${alpha}>${esc}</text>`;
+}
 
 const elements = [
   // ── Title ──
-  {
-    type: "text",
-    x: 80, y: 30,
-    width: 600, height: 70,
-    text: "📡 SourceFetch",
-    fontSize: 48,
-    fontFamily: 1, // hand-drawn
-    strokeColor: "#1e1e1e",
-    roughness: 2,
-    opacity: 100,
-  },
-  // ── Subtitle ──
-  {
-    type: "text",
-    x: 80, y: 100,
-    width: 700, height: 40,
-    text: "Fetch high-quality AI blogs & podcasts into your local Markdown knowledge base.",
-    fontSize: 18,
-    fontFamily: 1,
-    strokeColor: "#555",
-    roughness: 1,
-    opacity: 80,
-  },
+  text(80, 55, '📡 SourceFetch', 46, '#1e1e1e', { bold: true }),
+  // Underline
+  line('ul', 80, 70, 280, 70, '#e8590c'),
+  // Subtitle
+  text(80, 110, 'Fetch high-quality AI blogs &amp; podcasts into your local Markdown knowledge base.', 18, '#555'),
 
-  // ── Input box: sources.yaml ──
-  {
-    type: "rectangle",
-    x: 60, y: 180,
-    width: 140, height: 55,
-    strokeColor: "#1971c2",
-    backgroundColor: "#a5d8ff",
-    fillStyle: "solid",
-    strokeWidth: 2,
-    roughness: 2,
-    roundness: { type: 3 },
-  },
-  {
-    type: "text",
-    x: 70, y: 192,
-    width: 120, height: 30,
-    text: "sources.yaml",
-    fontSize: 16,
-    fontFamily: 1,
-    strokeColor: "#1971c2",
-    roughness: 1,
-  },
+  // ── Box: sources.yaml ──
+  box('src', 50, 160, 160, 62, '#1971c2', '#a5d8ff'),
+  text(68, 188, '📄 sources.yaml', 17, '#1971c2'),
 
   // ── Arrow 1 ──
-  {
-    type: "arrow",
-    x: 205, y: 207,
-    width: 60, height: 0,
-    strokeColor: "#555",
-    strokeWidth: 2,
-    roughness: 1,
-    points: [{ type: "arrow" }],
-  },
+  line('a1', 215, 191, 260, 191),
+  arrowHead('ah1', 268, 191, 'right'),
 
-  // ── Center: fetch.mjs ──
-  {
-    type: "rectangle",
-    x: 270, y: 170,
-    width: 130, height: 75,
-    strokeColor: "#e8590c",
-    backgroundColor: "#ffe8cc",
-    fillStyle: "solid",
-    strokeWidth: 2,
-    roughness: 2,
-    roundness: { type: 3 },
-  },
-  {
-    type: "text",
-    x: 285, y: 185,
-    width: 100, height: 30,
-    text: "fetch.mjs",
-    fontSize: 16,
-    fontFamily: 1,
-    strokeColor: "#e8590c",
-    roughness: 1,
-  },
-  {
-    type: "text",
-    x: 285, y: 210,
-    width: 100, height: 20,
-    text: "dispatcher",
-    fontSize: 12,
-    fontFamily: 1,
-    strokeColor: "#e8590c",
-    roughness: 1,
-    opacity: 70,
-  },
+  // ── Box: fetch.mjs ──
+  box('fetch', 270, 146, 144, 88, '#e8590c', '#ffe8cc'),
+  text(293, 176, '⚙️ fetch.mjs', 17, '#e8590c'),
+  text(293, 206, 'dispatcher', 13, '#e8590c', { opacity: 0.7 }),
 
-  // ── Arrow 2 (splits to 3) ──
-  {
-    type: "arrow",
-    x: 405, y: 195,
-    width: 50, height: -30,
-    strokeColor: "#2f9e44",
-    strokeWidth: 2,
-    roughness: 1,
-    points: [{ type: "arrow" }],
-  },
-  {
-    type: "arrow",
-    x: 405, y: 208,
-    width: 50, height: 0,
-    strokeColor: "#2f9e44",
-    strokeWidth: 2,
-    roughness: 1,
-    points: [{ type: "arrow" }],
-  },
-  {
-    type: "arrow",
-    x: 405, y: 220,
-    width: 50, height: 30,
-    strokeColor: "#2f9e44",
-    strokeWidth: 2,
-    roughness: 1,
-    points: [{ type: "arrow" }],
-  },
+  // ── Fan arrows ──
+  line('a2', 418, 176, 454, 148),
+  arrowHead('ah2', 460, 148, 'right'),
+  line('a3', 418, 190, 454, 190),
+  arrowHead('ah3', 460, 190, 'right'),
+  line('a4', 418, 204, 454, 232),
+  arrowHead('ah4', 460, 232, 'right'),
 
   // ── Platform boxes ──
-  {
-    type: "rectangle",
-    x: 460, y: 140,
-    width: 130, height: 45,
-    strokeColor: "#2f9e44",
-    backgroundColor: "#b2f2bb",
-    fillStyle: "solid",
-    strokeWidth: 2,
-    roughness: 2,
-    roundness: { type: 3 },
-  },
-  {
-    type: "text",
-    x: 480, y: 150,
-    width: 90, height: 25,
-    text: "Substack RSS",
-    fontSize: 14,
-    fontFamily: 1,
-    strokeColor: "#2f9e44",
-    roughness: 1,
-  },
+  box('p1', 460, 128, 148, 48, '#2f9e44', '#b2f2bb'),
+  text(474, 150, 'Substack RSS', 15, '#2f9e44'),
 
-  {
-    type: "rectangle",
-    x: 460, y: 195,
-    width: 130, height: 45,
-    strokeColor: "#6741d9",
-    backgroundColor: "#d0bfff",
-    fillStyle: "solid",
-    strokeWidth: 2,
-    roughness: 2,
-    roundness: { type: 3 },
-  },
-  {
-    type: "text",
-    x: 480, y: 205,
-    width: 90, height: 25,
-    text: "Blog RSS",
-    fontSize: 14,
-    fontFamily: 1,
-    strokeColor: "#6741d9",
-    roughness: 1,
-  },
+  box('p2', 460, 178, 148, 48, '#6741d9', '#d0bfff'),
+  text(480, 200, 'Blog RSS', 15, '#6741d9'),
 
-  {
-    type: "rectangle",
-    x: 460, y: 250,
-    width: 130, height: 45,
-    strokeColor: "#c92a2a",
-    backgroundColor: "#ffc9c9",
-    fillStyle: "solid",
-    strokeWidth: 2,
-    roughness: 2,
-    roundness: { type: 3 },
-  },
-  {
-    type: "text",
-    x: 475, y: 260,
-    width: 105, height: 25,
-    text: "Xiaoyuzhou FM",
-    fontSize: 13,
-    fontFamily: 1,
-    strokeColor: "#c92a2a",
-    roughness: 1,
-  },
+  box('p3', 460, 228, 148, 48, '#c92a2a', '#ffc9c9'),
+  text(468, 250, '小宇宙 FM', 15, '#c92a2a'),
 
   // ── Arrow 3 ──
-  {
-    type: "arrow",
-    x: 595, y: 208,
-    width: 60, height: 0,
-    strokeColor: "#555",
-    strokeWidth: 2,
-    roughness: 1,
-    points: [{ type: "arrow" }],
-  },
+  line('a5', 612, 190, 656, 190),
+  arrowHead('ah5', 664, 190, 'right'),
 
   // ── Output box ──
-  {
-    type: "rectangle",
-    x: 660, y: 170,
-    width: 145, height: 75,
-    strokeColor: "#e8590c",
-    backgroundColor: "#fff3bf",
-    fillStyle: "solid",
-    strokeWidth: 2,
-    roughness: 2,
-    roundness: { type: 3 },
-  },
-  {
-    type: "text",
-    x: 675, y: 180,
-    width: 115, height: 25,
-    text: "📝 Markdown",
-    fontSize: 15,
-    fontFamily: 1,
-    strokeColor: "#e8590c",
-    roughness: 1,
-  },
-  {
-    type: "text",
-    x: 675, y: 205,
-    width: 115, height: 30,
-    text: "简介 + 时间轴\n+ 逐字稿",
-    fontSize: 11,
-    fontFamily: 1,
-    strokeColor: "#e8590c",
-    roughness: 1,
-    opacity: 70,
-  },
+  box('out', 670, 146, 160, 88, '#e8590c', '#fff3bf'),
+  text(692, 174, '📝 Markdown', 16, '#e8590c'),
+  text(692, 200, '简介 + 时间轴', 12, '#e8590c', { opacity: 0.7 }),
+  text(692, 217, '+ 逐字稿', 12, '#e8590c', { opacity: 0.7 }),
 
-  // ── Underline decoration ──
-  {
-    type: "line",
-    x: 80, y: 80,
-    width: 140, height: 0,
-    strokeColor: "#e8590c",
-    strokeWidth: 2,
-    roughness: 2,
-    points: [{ type: "sharp" }],
-  },
-
-  // ── Bottom feature tags ──
-  ...[
-    { text: "🔄 Incremental dedup", x: 80 },
-    { text: "🌐 Proxy support", x: 280 },
-    { text: "🎙️ Official transcripts", x: 480 },
-    { text: "⚡ Bun + Node.js", x: 680 },
-  ].map(({ text, x }) => ({
-    type: "text",
-    x, y: 330,
-    width: 180, height: 25,
-    text,
-    fontSize: 13,
-    fontFamily: 1,
-    strokeColor: "#555",
-    roughness: 1,
-    opacity: 70,
-  })),
+  // ── Feature tags ──
+  box('t1', 55, 310, 175, 34, '#bbb', '#f5f5f5'),
+  text(68, 330, '🔄 Incremental dedup', 13, '#888'),
+  box('t2', 238, 310, 160, 34, '#bbb', '#f5f5f5'),
+  text(250, 330, '🌐 Proxy support', 13, '#888'),
+  box('t3', 406, 310, 190, 34, '#bbb', '#f5f5f5'),
+  text(418, 330, '🎙️ Official transcripts', 13, '#888'),
+  box('t4', 604, 310, 165, 34, '#bbb', '#f5f5f5'),
+  text(618, 330, '⚡ Bun + Node.js', 13, '#888'),
 ];
 
-const scene = {
-  type: "excalidraw",
-  version: 2,
-  source: "https://excalidraw.com",
-  elements,
-  appState: {
-    viewBackgroundColor: "#fafafa",
-    gridModeEnabled: false,
-  },
-  files: {},
-};
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+  <defs>${FILTER}</defs>
+  <rect width="${W}" height="${H}" fill="${BG}" rx="12"/>
+  <g filter="url(#rough)">${elements.join('\n    ')}</g>
+</svg>`;
 
-// Write file
-const fs = await import('fs');
-fs.writeFileSync('banner.excalidraw', JSON.stringify(scene, null, 2));
-console.log('✅ banner.excalidraw generated!');
-console.log('   Open https://excalidraw.com → drag & drop the file');
-console.log('   Or: File → Open → banner.excalidraw');
+writeFileSync('banner.svg', svg);
+console.log('✅ banner.svg generated');
+
+await sharp(Buffer.from(svg)).png().toFile('banner.png');
+console.log('✅ banner.png generated');
+console.log('   Ready to use in README!');
