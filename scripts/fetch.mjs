@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * sourcefetch — Fetch all tracked sources.
+ * AISignals — Fetch all tracked AI sources.
  *
  * Reads ./sources.yaml, runs fetchers, outputs to ./raw/social/
  *

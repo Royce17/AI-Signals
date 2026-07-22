@@ -4,7 +4,7 @@ Instructions for AI coding agents working on this repository.
 
 ## Project
 
-SourceFetch — CLI tool that fetches AI blogs/podcasts from Substack, RSS, and Xiaoyuzhou FM into local Markdown files. Node.js 22+ / Bun, ESM, minimal dependencies (only `js-yaml`).
+AISignals — CLI tool that fetches curated AI blogs/podcasts from Substack, RSS, and Xiaoyuzhou FM into local Markdown files. Node.js 22+ / Bun, ESM, minimal dependencies (only `js-yaml`).
 
 ## Architecture
 
@@ -15,15 +15,15 @@ sources.yaml          →   scripts/fetch.mjs (entry point)
                             └── fetchers/xiaoyuzhou.mjs → web scrape / API
                             all use:
                             ├── lib/storage.mjs    → saveRaw() → raw/social/{platform}/{key}/
-                            ├── lib/state.mjs      → .sourcefetch-state.json (dedup cursor)
+                            ├── lib/state.mjs      → .aisignals-state.json (dedup cursor)
                             └── lib/fetch-proxy.mjs → HTTPS_PROXY-aware fetch wrapper
 ```
 
 **Key design decisions:**
 
 - **No XML parser dependency.** Substack RSS is parsed with regex (`/<item>([\s\S]*?)<\/item>/gi`). This is intentional — RSS 2.0 item structure is predictable. Do not add an XML library unless adding Atom support that requires it.
-- **Incremental fetch via state file.** `.sourcefetch-state.json` stores `lastUrls[]` per platform/key. `isDuplicate()` checks this before saving. Keep this approach — don't switch to timestamp-only dedup.
-- **Xiaoyuzhou uses official transcript API** (not local Whisper). Login flow saves tokens to `~/.sourcefetch/`.
+- **Incremental fetch via state file.** `.aisignals-state.json` stores `lastUrls[]` per platform/key. `isDuplicate()` checks this before saving. Keep this approach — don't switch to timestamp-only dedup.
+- **Xiaoyuzhou uses official transcript API** (not local Whisper). Login flow saves tokens to `~/.aisignals/`.
 
 ## Commands
 
@@ -46,12 +46,12 @@ bun run scripts/login-xiaoyuzhou.mjs       # one-time SMS login
 | `scripts/fetchers/substack.mjs` | Substack RSS fetcher |
 | `scripts/fetchers/blog.mjs` | Generic RSS/Atom blog fetcher |
 | `scripts/fetchers/xiaoyuzhou.mjs` | Xiaoyuzhou FM podcast fetcher |
-| `scripts/fetchers/lib/state.mjs` | Read/write `.sourcefetch-state.json` |
+| `scripts/fetchers/lib/state.mjs` | Read/write `.aisignals-state.json` |
 | `scripts/fetchers/lib/storage.mjs` | Write Markdown + YAML frontmatter to `raw/social/` |
 | `scripts/fetchers/lib/fetch-proxy.mjs` | Fetch wrapper with `HTTPS_PROXY` support |
 | `SKILL.md` | AI agent skill manifest (for pi skill system) |
 | `raw/social/` | Output directory (gitignored) |
-| `.sourcefetch-state.json` | Incremental fetch state (gitignored) |
+| `.aisignals-state.json` | Incremental fetch state (gitignored) |
 
 ## Conventions
 
@@ -121,11 +121,11 @@ YAML frontmatter generated via `js-yaml` dump in `storage.mjs`.
 - Verify `HTTPS_PROXY` is set if the user is behind GFW
 - For Substack: open `https://{blog}.substack.com/feed` in a browser to confirm the feed exists
 - For Xiaoyuzhou: ensure login was completed (`bun run scripts/login-xiaoyuzhou.mjs`)
-- State file `.sourcefetch-state.json` can be deleted to force a full refetch
+- State file `.aisignals-state.json` can be deleted to force a full refetch
 
 ## Don't
 
 - Don't add new npm dependencies without strong justification (current dep: `js-yaml` only)
 - Don't change the output directory structure (`raw/social/{platform}/{key}/`)
-- Don't modify `.sourcefetch-state.json` directly — use `state.mjs` helpers
-- Don't commit `sources.yaml` or `.sourcefetch-state.json` (both are in `.gitignore`)
+- Don't modify `.aisignals-state.json` directly — use `state.mjs` helpers
+- Don't commit `sources.yaml` or `.aisignals-state.json` (both are in `.gitignore`)

@@ -1,10 +1,6 @@
-# SourceFetch
+# AISignals
 
-> [中文文档](README.zh-CN.md)
-
-![SourceFetch](assets/banner.png)
-
-Fetch high-quality AI blogs and podcasts into your local Markdown knowledge base.
+**Signal, not noise.** Curated AI blogs & podcasts into your local Markdown knowledge base.
 
 Supports **Substack**, **independent blog RSS feeds**, and **Xiaoyuzhou FM podcasts** (with official word-for-word transcripts, not local Whisper).
 
@@ -12,11 +8,11 @@ Supports **Substack**, **independent blog RSS feeds**, and **Xiaoyuzhou FM podca
 
 ```bash
 # Install as an AI Agent Skill (recommended)
-npx skills add royce17/sourcefetch
+npx skills add royce17/aisignals
 
 # Or clone manually
-git clone https://github.com/royce17/sourcefetch.git
-cd sourcefetch && npm install
+git clone https://github.com/royce17/aisignals.git
+cd aisignals && npm install
 ```
 
 Works with **Bun** and **Node.js 22+**.
@@ -67,7 +63,7 @@ API + pagination"]
     L --> M["raw/social/
 {platform}/{source}"]
 
-    M --> N[".sourcefetch-state.json
+    M --> N[".aisignals-state.json
 dedup & incremental"]
 ```
 
@@ -151,4 +147,4 @@ MIT
 
 ---
 
-**Community-curated.** Know a great AI podcast or Substack that belongs here? [Open an issue](https://github.com/Royce17/sourcefetch/issues) to recommend it.
+**Community-curated.** Know a great AI podcast or Substack that belongs here? [Open an issue](https://github.com/Royce17/aisignals/issues) to recommend it.

@@ -9,7 +9,7 @@
       "y": 30,
       "width": 382.7061767578125,
       "height": 60,
-      "text": "📡 SourceFetch",
+      "text": "📡 AISignals",
       "fontSize": 48,
       "fontFamily": 8,
       "strokeColor": "#1e1e1e",
@@ -36,7 +36,7 @@
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "📡 SourceFetch",
+      "originalText": "📡 AISignals",
       "autoResize": true,
       "lineHeight": 1.25
     },

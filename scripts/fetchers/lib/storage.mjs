@@ -8,9 +8,9 @@ import { resolve } from 'path';
 import yaml from 'js-yaml';
 
 // Output goes to ./raw/social/ in current working directory
-// Override with SOURCEFETCH_OUTPUT env var
-const RAW_DIR = process.env.SOURCEFETCH_OUTPUT
-  ? resolve(process.env.SOURCEFETCH_OUTPUT)
+// Override with AISIGNALS_OUTPUT env var
+const RAW_DIR = process.env.AISIGNALS_OUTPUT
+  ? resolve(process.env.AISIGNALS_OUTPUT)
   : resolve(process.cwd(), 'raw', 'social');
 
 export function saveRaw(opts) {

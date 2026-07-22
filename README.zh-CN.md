@@ -1,6 +1,6 @@
-# SourceFetch
+# AISignals
 
-一键抓取 AI 领域高质量信息源的博客和播客，存入本地 Markdown 知识库。
+**Signal, not noise.** 一键抓取 AI 领域高质量信息源的博客和播客，存入本地 Markdown 知识库。
 
 支持 **Substack**、**独立博客 RSS**、**小宇宙播客**（含官方逐字稿）。
 
@@ -8,11 +8,11 @@
 
 ```bash
 # 作为 AI Agent Skill 安装（推荐）
-npx skills add royce17/sourcefetch
+npx skills add royce17/aisignals
 
 # 或手动克隆
-git clone https://github.com/royce17/sourcefetch.git
-cd sourcefetch && npm install
+git clone https://github.com/royce17/aisignals.git
+cd aisignals && npm install
 ```
 
 支持 **Bun** 和 **Node.js 22+**。
@@ -65,7 +65,7 @@ API + 分页"]
     L --> M["raw/social/
 {platform}/{source}"]
 
-    M --> N[".sourcefetch-state.json
+    M --> N[".aisignals-state.json
 去重 + 增量更新"]
 ```
 
@@ -152,4 +152,4 @@ MIT
 
 ---
 
-**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/sourcefetch/issues) 推荐它。
+**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/aisignals/issues) 推荐它。

@@ -1,10 +1,10 @@
 {
-  "name": "sourcefetch",
+  "name": "aisignals",
   "version": "1.0.0",
-  "description": "Fetch high-quality AI blogs and podcasts from Substack, Xiaoyuzhou FM, and RSS feeds",
+  "description": "Signal, not noise. Curated AI blogs & podcasts from Substack, Xiaoyuzhou FM, and RSS feeds",
   "type": "module",
   "bin": {
-    "sourcefetch": "./scripts/fetch.mjs"
+    "aisignals": "./scripts/fetch.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"

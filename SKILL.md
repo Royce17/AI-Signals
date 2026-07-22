@@ -1,16 +1,16 @@
 ---
-name: sourcefetch
-description: Fetch high-quality AI blogs and podcasts from Substack, Xiaoyuzhou FM, and RSS feeds. Supports tracking Fei-Fei Li, Karpathy, Lilian Weng, Sebastian Raschka, and more. Use when user wants to fetch or track AI thought leaders' content.
+name: aisignals
+description: Signal, not noise. Curated AI blogs & podcasts from Substack, Xiaoyuzhou FM, and RSS feeds. Tracks Fei-Fei Li, Karpathy, Lilian Weng, Sebastian Raschka, Demis Hassabis, and more. Use when user wants to fetch or track AI thought leaders' content.
 ---
 
-# SourceFetch
+# AISignals
 
-Fetch high-quality AI blogs and podcasts from Substack, independent blog RSS feeds, and Xiaoyuzhou FM (with official transcripts).
+Signal, not noise. Curated AI blogs & podcasts from Substack, independent blog RSS feeds, and Xiaoyuzhou FM (with official transcripts).
 
 ## Setup
 
 ```bash
-cd sourcefetch
+cd aisignals
 bun install   # or npm install
 cp sources.example.yaml sources.yaml   # edit your source list
 ```
