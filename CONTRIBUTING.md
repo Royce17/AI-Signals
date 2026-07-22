@@ -41,11 +41,75 @@ Found a fetch error or broken output? [Open an issue](https://github.com/Royce17
 
 Keep PRs focused — one feature or fix per PR.
 
-## Style
+## Conventions
 
-- **YAML**: Two-space indent, comment each source
-- **Commit messages**: Use present tense (`add source X` not `added source X`)
-- **Tags**: Lowercase, `kebab-case` for multi-word
+### YAML (curated/*.yaml, sources.yaml)
+
+```yaml
+sources:
+  # Comment describing the source (Chinese or English, one line)
+  # - name: "Name"
+  #   substack: "subdomain"        # → subdomain.substack.com
+  #   tags: [lowercase, kebab-case]
+```
+
+- Two-space indent
+- Each source starts commented out in curated lists
+- Tags: lowercase, hyphen-separated
+- `name` field is required
+
+### JavaScript
+
+- ESM (`import`/`export`), `.mjs` extension
+- Node.js 22+ built-in APIs only (no extra deps without strong reason)
+- Functions use JSDoc comments: `/** ... */`
+- Console output prefixes: `✅` success, `❌` error, `⚠️` warning, `🔍` dry run, `📡` fetching, `📥` saving
+
+### Commit messages
+
+- Use present tense (`add source X` not `added source X`)
+- Keep the first line under 72 characters
+
+## Output Format
+
+```markdown
+---
+title: "Post Title"
+source: https://example.com/post
+author: Author Name
+source_date: 2025-07-22T00:00:00.000Z
+date: 2025-07-22
+platform: substack
+---
+
+# Post Title
+
+Content in Markdown...
+```
+
+## Adding a New Platform
+
+1. Create `scripts/fetchers/<platform>.mjs` with an exported `fetch<Platform>()` function
+2. It must accept `(key, { dry })` and return `{ fetched: number }`
+3. Use `fetchProxy()` from `lib/fetch-proxy.mjs` for all HTTP requests
+4. Use `isDuplicate()` / `markFetched()` from `lib/state.mjs` for dedup
+5. Use `saveRaw()` from `lib/storage.mjs` for output
+6. Register in `scripts/fetch.mjs` (import + dispatch in the `for` loop)
+
+## Debugging Fetch Issues
+
+- Check `console` output for error messages with platform tags
+- Verify `HTTPS_PROXY` is set if the user is behind GFW
+- For Substack: open `https://{blog}.substack.com/feed` in a browser to confirm the feed exists
+- For Xiaoyuzhou: ensure login was completed (`bun run scripts/login-xiaoyuzhou.mjs`)
+- State file `.sourcefetch-state.json` can be deleted to force a full refetch
+
+## Rules
+
+- Don't add new npm dependencies without strong justification (current dep: `js-yaml` only)
+- Don't change the output directory structure (`raw/social/{platform}/{key}/`)
+- Don't modify `.sourcefetch-state.json` directly — use `state.mjs` helpers
+- Don't commit `sources.yaml` or `.sourcefetch-state.json` (both are in `.gitignore`)
 
 ## Questions?
 
