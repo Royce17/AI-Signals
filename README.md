@@ -1,59 +1,75 @@
 # SourceFetch
 
-一键抓取 AI 领域高质量信息源的博客和播客，存入本地 Markdown 知识库。
+> [中文文档](README.zh-CN.md)
 
-支持 **Substack**、**独立博客 RSS**、**小宇宙播客**（含官方逐字稿）。
+Fetch high-quality AI blogs and podcasts into your local Markdown knowledge base.
 
-## 安装
+Supports **Substack**, **independent blog RSS feeds**, and **Xiaoyuzhou FM podcasts** (with official word-for-word transcripts, not local Whisper).
+
+## Installation
 
 ```bash
-# 作为 AI Agent Skill 安装（推荐）
+# Install as an AI Agent Skill (recommended)
 npx skills add royce17/sourcefetch
 
-# 或手动克隆
+# Or clone manually
 git clone https://github.com/royce17/sourcefetch.git
 cd sourcefetch && npm install
 ```
 
-支持 **Bun** 和 **Node.js 22+**。
+Works with **Bun** and **Node.js 22+**.
 
-## 快速开始
+## Quick Start
 
 ```bash
-cp sources.example.yaml sources.yaml   # 编辑你的信息源
-bun run scripts/fetch.mjs              # 抓取所有源
+cp sources.example.yaml sources.yaml   # Edit your source list
+bun run scripts/fetch.mjs              # Fetch all sources
 ```
 
-小宇宙播客需要登录一次（获取逐字稿和全量历史）：
+Xiaoyuzhou podcasts require a one-time login (for full history and transcripts):
 ```bash
-bun run scripts/login-xiaoyuzhou.mjs
+bun run scripts/login-xiaoyuzhou.mjs   # SMS login, takes 30 seconds
 ```
 
-海外源需要代理：
+For sources behind GFW (Substack, etc.), set a proxy:
 ```bash
 export HTTPS_PROXY=http://127.0.0.1:7897
 ```
 
-## 添加信息源
+## Adding Sources
 
-编辑 `sources.yaml`：
+Edit `sources.yaml`:
 
 ```yaml
 sources:
   # Substack
-  - name: "李飞飞"
+  - name: "Fei-Fei Li"
     substack: "drfeifei"
 
-  # 独立博客
+  - name: "Sebastian Raschka"
+    substack: "sebastianraschka"
+
+  # Independent blogs (any RSS/Atom feed)
   - name: "Lilian Weng"
     blog: "https://lilianweng.github.io/index.xml"
 
-  # 小宇宙播客
+  - name: "Dwarkesh Patel"
+    blog: "https://www.dwarkesh.com/feed.xml"
+
+  # Xiaoyuzhou podcasts (copy PID from podcast page URL)
   - name: "张小珺｜商业访谈录"
     xiaoyuzhou: "626b46ea9cbbf0451cf5a962"
 ```
 
-## 输出格式
+### Platform Fields
+
+| Field | Format | Example |
+|-------|--------|---------|
+| `substack` | Subdomain | `drfeifei` → `drfeifei.substack.com` |
+| `blog` | Full RSS/Atom URL | `https://example.com/feed.xml` |
+| `xiaoyuzhou` | Podcast PID | String after `podcast/` in the URL |
+
+## Output
 
 ```
 raw/social/
@@ -65,16 +81,25 @@ raw/social/
 │       └── 2026-07-04-harness.md
 └── xiaoyuzhou/
     └── 张小珺Jùn｜商业访谈录/
-        └── 2026-07-22-147. 和蚂蚁灵波沈宇军聊....md
+        └── 2026-07-22-147-robotics-foundation-model.md
 ```
 
-每篇 Markdown 带完整 YAML frontmatter，小宇宙播客含**简介 + 时间轴 + 逐字稿**。
+Each file is a Markdown document with full YAML frontmatter. Xiaoyuzhou episodes include **description + timeline + transcript** (via the official transcript API — no GPU, instant delivery).
 
-## 与 AI Agent 配合
+## Features
 
-作为 skill 安装后，Agent 自动识别。你也可以直接说：
+- 🔌 **Multi-platform** — One YAML config for Substack, RSS blogs, and Xiaoyuzhou
+- 🎙️ **Official transcripts** — The only tool using Xiaoyuzhou's transcript API (zero GPU)
+- 🔐 **SMS login** — Built-in guided login for Xiaoyuzhou, token auto-refresh
+- 🌐 **Proxy support** — `HTTPS_PROXY` for users behind GFW
+- 📥 **Incremental fetch** — Deduplication built-in, only pulls new content
+- 📝 **Markdown output** — Clean frontmatter, ready for LLM ingest
 
-> "帮我把 sources.yaml 里的所有源抓取一遍"
+## AI Agent Integration
+
+When installed as a skill, AI agents auto-detect it. You can also say:
+
+> "Fetch all the sources in my sources.yaml"
 
 ## License
 
