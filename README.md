@@ -113,3 +113,7 @@ When installed as a skill, AI agents auto-detect it. You can also say:
 ## License
 
 MIT
+
+---
+
+**Community-curated.** Know a great AI podcast or Substack that belongs here? [Open an issue](https://github.com/Royce17/sourcefetch/issues) to recommend it.

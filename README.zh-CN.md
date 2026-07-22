@@ -114,3 +114,7 @@ raw/social/
 ## License
 
 MIT
+
+---
+
+**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/sourcefetch/issues) 推荐它。
