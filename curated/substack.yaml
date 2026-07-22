@@ -20,6 +20,11 @@ sources:
   #   substack: "karpathy"
   #   tags: [ai, llm, agi]
 
+  # Demis Hassabis — CEO of Google DeepMind. AGI, AlphaFold, reinforcement learning.
+  # - name: "Demis Hassabis"
+  #   substack: "demishassabis"
+  #   tags: [ai, agi, deepmind, rl]
+
   # ── AI Investing / China-US Tech ──
 
   # Zara Zhang — AI investing, China-US tech, learning
