@@ -48,19 +48,25 @@ flowchart LR
     D --> G[解析 XML]
     E --> G
 
-    F -->|免登录| H[抓取网页<br/>Next.js __NEXT_DATA__]
-    F -->|已登录| I[短信登录<br/>API + 分页]
+    F -->|免登录| H["抓取网页
+Next.js __NEXT_DATA__"]
+    F -->|已登录| I["短信登录
+API + 分页"]
 
     H --> J[~15 期]
-    I --> K[全部历史<br/>+ 时间轴<br/>+ 逐字稿 API]
+    I --> K["全部历史
++ 时间轴
++ 逐字稿 API"]
 
     G --> L[Markdown + frontmatter]
     J --> L
     K --> L
 
-    L --> M[raw/social/<br/>{platform}/{source}/]
+    L --> M["raw/social/
+{platform}/{source}"]
 
-    M --> N[.sourcefetch-state.json<br/>去重 + 增量更新]
+    M --> N[".sourcefetch-state.json
+去重 + 增量更新"]
 ```
 
 ## 添加信息源

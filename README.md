@@ -50,8 +50,10 @@ flowchart LR
     D --> G[Parse XML]
     E --> G
 
-    F -->|no auth| H[Scrape web page<br/>Next.js __NEXT_DATA__]
-    F -->|has auth| I[SMS login<br/>API + pagination]
+    F -->|no auth| H["Scrape web page
+Next.js __NEXT_DATA__"]
+    F -->|has auth| I["SMS login
+API + pagination"]
 
     H --> J[~15 recent eps]
     I --> K[All episodes<br/>+ shownotes<br/>+ transcript API]
@@ -60,9 +62,11 @@ flowchart LR
     J --> L
     K --> L
 
-    L --> M[raw/social/<br/>{platform}/{source}/]
+    L --> M["raw/social/
+{platform}/{source}"]
 
-    M --> N[.sourcefetch-state.json<br/>dedup & incremental]
+    M --> N[".sourcefetch-state.json
+dedup & incremental"]
 ```
 
 ## Adding Sources
