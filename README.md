@@ -2,7 +2,10 @@
 
 > [中文文档](README.zh-CN.md)
 
-![SourceFetch](assets/banner.svg)
+<picture>
+  <source srcset="assets/banner-dark.svg" media="(prefers-color-scheme: dark)">
+  <img src="assets/banner-light.svg" alt="SourceFetch" width="100%">
+</picture>
 
 Fetch high-quality AI blogs and podcasts into your local Markdown knowledge base.
 
