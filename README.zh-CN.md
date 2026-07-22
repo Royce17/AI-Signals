@@ -34,6 +34,35 @@ bun run scripts/login-xiaoyuzhou.mjs   # 短信验证码登录，30 秒搞定
 export HTTPS_PROXY=http://127.0.0.1:7897
 ```
 
+## 工作原理
+
+```mermaid
+flowchart LR
+    A[sources.yaml] --> B[fetch.mjs]
+    B --> C{平台?}
+
+    C -->|substack| D[Substack RSS]
+    C -->|blog| E[Blog RSS]
+    C -->|xiaoyuzhou| F{小宇宙}
+
+    D --> G[解析 XML]
+    E --> G
+
+    F -->|免登录| H[抓取网页<br/>Next.js __NEXT_DATA__]
+    F -->|已登录| I[短信登录<br/>API + 分页]
+
+    H --> J[~15 期]
+    I --> K[全部历史<br/>+ 时间轴<br/>+ 逐字稿 API]
+
+    G --> L[Markdown + frontmatter]
+    J --> L
+    K --> L
+
+    L --> M[raw/social/<br/>{platform}/{source}/]
+
+    M --> N[.sourcefetch-state.json<br/>去重 + 增量更新]
+```
+
 ## 添加信息源
 
 **推荐用精选列表快速开始：** `curated/` 目录下有按主题分类的推荐源，取消注释即可启用。

@@ -36,6 +36,35 @@ For sources behind GFW (Substack, etc.), set a proxy:
 export HTTPS_PROXY=http://127.0.0.1:7897
 ```
 
+## How It Works
+
+```mermaid
+flowchart LR
+    A[sources.yaml] --> B[fetch.mjs]
+    B --> C{Platform?}
+
+    C -->|substack| D[Substack RSS]
+    C -->|blog| E[Blog RSS]
+    C -->|xiaoyuzhou| F{Xiaoyuzhou}
+
+    D --> G[Parse XML]
+    E --> G
+
+    F -->|no auth| H[Scrape web page<br/>Next.js __NEXT_DATA__]
+    F -->|has auth| I[SMS login<br/>API + pagination]
+
+    H --> J[~15 recent eps]
+    I --> K[All episodes<br/>+ shownotes<br/>+ transcript API]
+
+    G --> L[Markdown + frontmatter]
+    J --> L
+    K --> L
+
+    L --> M[raw/social/<br/>{platform}/{source}/]
+
+    M --> N[.sourcefetch-state.json<br/>dedup & incremental]
+```
+
 ## Adding Sources
 
 **Recommended: use the curated lists** in `curated/` to get started fast. Just uncomment the sources you want.
