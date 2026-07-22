@@ -3,8 +3,6 @@
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![npm](https://img.shields.io/npm/v/awesome-ai-signals)](https://www.npmjs.com/package/awesome-ai-signals)
 
-![Awesome AI Signals](assets/banner-dark.svg)
-
 > **Signal, not noise.** A curated list of 9 hand-picked AI thought leaders — blogs, newsletters, and podcasts that consistently deliver high-signal content.
 >
 > Comes with a CLI to sync everything to your local Markdown knowledge base.
@@ -60,6 +58,8 @@ A community-curated [Awesome List](https://awesome.re) of AI content sources wor
 ---
 
 ## Bundled CLI
+
+![Awesome AI Signals](assets/banner-dark.svg)
 
 The repository ships with a CLI tool that reads this list and fetches posts/episodes into local Markdown files — ready for LLM ingest, offline reading, or personal knowledge base.
 

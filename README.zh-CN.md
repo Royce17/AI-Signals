@@ -3,8 +3,6 @@
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![npm](https://img.shields.io/npm/v/awesome-ai-signals)](https://www.npmjs.com/package/awesome-ai-signals)
 
-![Awesome AI Signals](assets/banner-dark.svg)
-
 > **Signal, not noise.** 一份精选 AI 信息源列表：9 位持续产出高质量内容的 AI 思想领袖 — 博客、Newsletter、播客。附带一个 CLI 工具，一键同步到本地 Markdown 知识库。
 
 一个社区共建的 [Awesome List](https://awesome.re)，收录值得长期追踪的 AI 内容源。每个入选者都基于其**持续产出原创思考**的能力，而非简单搬运新闻。
@@ -58,6 +56,8 @@
 ---
 
 ## 附带的 CLI 工具
+
+![Awesome AI Signals](assets/banner-dark.svg)
 
 仓库自带 CLI，读完列表一键抓取博文和播客到本地 Markdown——可喂给 LLM、离线阅读、或搭建个人知识库。
 
