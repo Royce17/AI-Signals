@@ -1,4 +1,4 @@
-# AISignals
+# AI-Signals
 
 **Signal, not noise.** Curated AI blogs & podcasts into your local Markdown knowledge base.
 
@@ -8,11 +8,11 @@ Supports **Substack**, **independent blog RSS feeds**, and **Xiaoyuzhou FM podca
 
 ```bash
 # Install as an AI Agent Skill (recommended)
-npx skills add royce17/aisignals
+npx skills add royce17/ai-signals
 
 # Or clone manually
-git clone https://github.com/royce17/aisignals.git
-cd aisignals && npm install
+git clone https://github.com/royce17/ai-signals.git
+cd ai-signals && npm install
 ```
 
 Works with **Bun** and **Node.js 22+**.
@@ -63,7 +63,7 @@ API + pagination"]
     L --> M["raw/social/
 {platform}/{source}"]
 
-    M --> N[".aisignals-state.json
+    M --> N[".ai-signals-state.json
 dedup & incremental"]
 ```
 
@@ -147,4 +147,4 @@ MIT
 
 ---
 
-**Community-curated.** Know a great AI podcast or Substack that belongs here? [Open an issue](https://github.com/Royce17/aisignals/issues) to recommend it.
+**Community-curated.** Know a great AI podcast or Substack that belongs here? [Open an issue](https://github.com/Royce17/ai-signals/issues) to recommend it.

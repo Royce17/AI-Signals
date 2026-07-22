@@ -1,4 +1,4 @@
-# AISignals
+# AI-Signals
 
 **Signal, not noise.** 一键抓取 AI 领域高质量信息源的博客和播客，存入本地 Markdown 知识库。
 
@@ -8,11 +8,11 @@
 
 ```bash
 # 作为 AI Agent Skill 安装（推荐）
-npx skills add royce17/aisignals
+npx skills add royce17/ai-signals
 
 # 或手动克隆
-git clone https://github.com/royce17/aisignals.git
-cd aisignals && npm install
+git clone https://github.com/royce17/ai-signals.git
+cd ai-signals && npm install
 ```
 
 支持 **Bun** 和 **Node.js 22+**。
@@ -65,7 +65,7 @@ API + 分页"]
     L --> M["raw/social/
 {platform}/{source}"]
 
-    M --> N[".aisignals-state.json
+    M --> N[".ai-signals-state.json
 去重 + 增量更新"]
 ```
 
@@ -152,4 +152,4 @@ MIT
 
 ---
 
-**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/aisignals/issues) 推荐它。
+**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/ai-signals/issues) 推荐它。

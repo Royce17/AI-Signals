@@ -28,4 +28,4 @@ Security concerns include but aren't limited to:
 
 - **Never commit `sources.yaml`** if it contains custom fields that might be sensitive — the file is gitignored by default
 - **Proxy credentials**: Use environment variables (`HTTPS_PROXY`), never hardcode them
-- **Xiaoyuzhou login tokens** are stored locally in `~/.aisignals/` — keep this machine trusted
+- **Xiaoyuzhou login tokens** are stored locally in `~/.ai-signals/` — keep this machine trusted
