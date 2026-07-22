@@ -1,4 +1,4 @@
-# Awesome AI Signals
+# 📡 Awesome AI Signals
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![npm](https://img.shields.io/npm/v/awesome-ai-signals)](https://www.npmjs.com/package/awesome-ai-signals)
