@@ -1,7 +1,5 @@
 # Source list for SourceFetch
-# One source per entry. Only platforms with values will be fetched.
-#
-# 💡 Check curated/ for pre-made lists organized by topic.
+# All curated sources are enabled by default — comment out any you don't want.
 #
 # Platform fields:
 #   substack:    Substack subdomain (drfeifei → drfeifei.substack.com)
@@ -10,35 +8,65 @@
 #   twitter:     Reserved, not yet implemented
 
 sources:
+
+  # ══════════════════════════════════════════════════════════════
+  # Substack
+  # ══════════════════════════════════════════════════════════════
+
+  # ── AI / LLM ──
+
+  # Fei-Fei Li — Spatial intelligence, world models, computer vision
   - name: "Fei-Fei Li"
     substack: "drfeifei"
-    tags: [ai, spatial-intelligence]
+    tags: [ai, spatial-intelligence, world-models]
 
+  # Sebastian Raschka — Ahead of AI: LLM engineering, coding agents, paper reviews
+  - name: "Sebastian Raschka"
+    substack: "sebastianraschka"
+    tags: [ai, llm, deep-learning, coding-agents]
+
+  # Andrej Karpathy — Former Tesla/OpenAI AI lead. Infrequent but essential.
   - name: "Andrej Karpathy"
     substack: "karpathy"
     tags: [ai, llm, agi]
 
-  - name: "Sebastian Raschka"
-    substack: "sebastianraschka"
-    tags: [ai, llm, deep-learning]
+  # Demis Hassabis — CEO of Google DeepMind. AGI, AlphaFold, reinforcement learning.
+  - name: "Demis Hassabis"
+    substack: "demishassabis"
+    tags: [ai, agi, deepmind, rl]
 
-  - name: "Lilian Weng"
-    blog: "https://lilianweng.github.io/index.xml"
-    tags: [ai, llm, rl, agents]
+  # ── AI Investing / China-US Tech ──
 
-  - name: "Dwarkesh Patel"
-    blog: "https://www.dwarkesh.com/feed.xml"
-    tags: [ai, podcasts, interviews]
-
+  # Zara Zhang — AI investing, China-US tech, learning
   - name: "Zara Zhang"
     substack: "zarazhang"
     tags: [ai, investing, china]
 
-  # Xiaoyuzhou podcasts (login first: bun run scripts/login-xiaoyuzhou.mjs)
-  # - name: "张小珺｜商业访谈录"
-  #   xiaoyuzhou: "626b46ea9cbbf0451cf5a962"
-  #   tags: [ai, tech, podcast]
-  #
-  # - name: "十字路口Crossing"
-  #   xiaoyuzhou: "60502e253c92d4f62c2a9577"
-  #   tags: [ai, tech, podcast]
+  # ══════════════════════════════════════════════════════════════
+  # Independent Blogs (RSS/Atom)
+  # ══════════════════════════════════════════════════════════════
+
+  # Lilian Weng — Former OpenAI safety VP. Deep technical posts on RL, agents, LLMs.
+  - name: "Lilian Weng"
+    blog: "https://lilianweng.github.io/index.xml"
+    tags: [ai, llm, rl, agents, scaling-laws]
+
+  # Dwarkesh Patel — In-depth interviews with AI pioneers and scientists
+  - name: "Dwarkesh Patel"
+    blog: "https://www.dwarkesh.com/feed.xml"
+    tags: [ai, podcasts, interviews, science]
+
+  # ══════════════════════════════════════════════════════════════
+  # Xiaoyuzhou FM (小宇宙) Podcasts
+  # Login first: bun run scripts/login-xiaoyuzhou.mjs
+  # ══════════════════════════════════════════════════════════════
+
+  # 张小珺Jùn｜商业访谈录 — 2-7 hour deep interviews: AI, self-driving, robotics, chips
+  - name: "张小珺Jùn｜商业访谈录"
+    xiaoyuzhou: "626b46ea9cbbf0451cf5a962"
+    tags: [ai, deep-tech, business, china]
+
+  # 十字路口Crossing — Koji's podcast: AI x business, agents, coding, startups
+  - name: "十字路口Crossing"
+    xiaoyuzhou: "60502e253c92d4f62c2a9577"
+    tags: [ai, agents, coding, startups]
