@@ -2,7 +2,7 @@
 
 > [中文文档](README.zh-CN.md)
 
-<img src="assets/banner.png" alt="SourceFetch banner" width="100%">
+![SourceFetch](assets/banner.png)
 
 Fetch high-quality AI blogs and podcasts into your local Markdown knowledge base.
 
