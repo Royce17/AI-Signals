@@ -1,5 +1,7 @@
 # AI-Signals
 
+![AI-Signals](assets/banner-dark.svg)
+
 **Signal, not noise.** 一键抓取 AI 领域高质量信息源的博客和播客，存入本地 Markdown 知识库。
 
 支持 **Substack**、**独立博客 RSS**、**小宇宙播客**（含官方逐字稿）。

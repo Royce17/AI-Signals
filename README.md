@@ -1,5 +1,7 @@
 # AI-Signals
 
+![AI-Signals](assets/banner-dark.svg)
+
 **Signal, not noise.** Curated AI blogs & podcasts into your local Markdown knowledge base.
 
 Supports **Substack**, **independent blog RSS feeds**, and **Xiaoyuzhou FM podcasts** (with official word-for-word transcripts, not local Whisper).
