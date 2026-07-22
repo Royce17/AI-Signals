@@ -1,0 +1,14 @@
+{
+  "name": "sourcefetch",
+  "version": "1.0.0",
+  "description": "Fetch high-quality AI blogs and podcasts from Substack, Xiaoyuzhou FM, and RSS feeds",
+  "type": "module",
+  "bin": {
+    "sourcefetch": "./scripts/fetch.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "keywords": ["ai", "podcast", "substack", "rss", "xiaoyuzhou", "knowledge-base"],
+  "license": "MIT"
+}
