@@ -1,4 +1,4 @@
-# Contributing to AI-Signals
+# Contributing to Awesome AI Signals
 
 Thanks for helping build the best AI content tracker!
 
@@ -6,7 +6,7 @@ Thanks for helping build the best AI content tracker!
 
 ### 🎯 Recommend a Source
 
-The fastest way to contribute: [open an issue](https://github.com/Royce17/ai-signals/issues) with a link to a great AI Substack, blog, or Xiaoyuzhou podcast. We'll add it to the curated lists.
+The fastest way to contribute: [open an issue](https://github.com/Royce17/awesome-ai-signals/issues) with a link to a great AI Substack, blog, or Xiaoyuzhou podcast. We'll add it to the curated lists.
 
 ### 📝 Add to Curated Lists
 
@@ -25,7 +25,7 @@ curated/
 
 ### 🐛 Report a Bug
 
-Found a fetch error or broken output? [Open an issue](https://github.com/Royce17/ai-signals/issues) with:
+Found a fetch error or broken output? [Open an issue](https://github.com/Royce17/awesome-ai-signals/issues) with:
 
 - The source entry from your `sources.yaml`
 - The command you ran
@@ -42,6 +42,19 @@ Found a fetch error or broken output? [Open an issue](https://github.com/Royce17
 Keep PRs focused — one feature or fix per PR.
 
 ## Conventions
+
+### Awesome List
+
+This is an [Awesome List](https://github.com/sindresorhus/awesome/blob/main/awesome.md). All curated entries follow the standard format:
+
+```markdown
+- [Name](link) — One-line description in English.
+```
+
+- One source per entry
+- Description in English, 80 characters or less
+- Entries sorted alphabetically within each category
+- Only high-quality, actively maintained sources
 
 ### YAML (curated/*.yaml, sources.yaml)
 
@@ -102,18 +115,18 @@ Content in Markdown...
 - Verify `HTTPS_PROXY` is set if the user is behind GFW
 - For Substack: open `https://{blog}.substack.com/feed` in a browser to confirm the feed exists
 - For Xiaoyuzhou: ensure login was completed (`bun run scripts/login-xiaoyuzhou.mjs`)
-- State file `.ai-signals-state.json` can be deleted to force a full refetch
+- State file `.awesome-ai-signals-state.json` can be deleted to force a full refetch
 
 ## Rules
 
 - Don't add new npm dependencies without strong justification (current dep: `js-yaml` only)
 - Don't change the output directory structure (`raw/social/{platform}/{key}/`)
-- Don't modify `.ai-signals-state.json` directly — use `state.mjs` helpers
-- Don't commit `sources.yaml` or `.ai-signals-state.json` (both are in `.gitignore`)
+- Don't modify `.awesome-ai-signals-state.json` directly — use `state.mjs` helpers
+- Don't commit `sources.yaml` or `.awesome-ai-signals-state.json` (both are in `.gitignore`)
 
 ## Questions?
 
-Open a [discussion](https://github.com/Royce17/ai-signals/discussions) or drop an issue.
+Open a [discussion](https://github.com/Royce17/awesome-ai-signals/discussions) or drop an issue.
 
 ---
 

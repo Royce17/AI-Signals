@@ -1,20 +1,50 @@
-# AI-Signals
+# Awesome AI Signals
 
-![AI-Signals](assets/banner-dark.svg)
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+
+![Awesome AI Signals](assets/banner-dark.svg)
 
 **Signal, not noise.** Curated AI blogs & podcasts into your local Markdown knowledge base.
 
 Supports **Substack**, **independent blog RSS feeds**, and **Xiaoyuzhou FM podcasts** (with official word-for-word transcripts, not local Whisper).
 
+## Curated Sources
+
+> 9 hand-picked AI thought leaders across 3 platforms. See [`curated/`](curated/) for the full YAML lists.
+
+### Substack
+
+| Source | Description |
+|--------|-------------|
+| [Fei-Fei Li](https://drfeifei.substack.com) | Spatial intelligence, world models, computer vision |
+| [Sebastian Raschka](https://sebastianraschka.substack.com) | Ahead of AI: LLM engineering, coding agents, paper reviews |
+| [Andrej Karpathy](https://karpathy.substack.com) | Former Tesla/OpenAI AI lead. Infrequent but essential. |
+| [Demis Hassabis](https://demishassabis.substack.com) | CEO of Google DeepMind. AGI, AlphaFold, RL. |
+| [Zara Zhang](https://zarazhang.substack.com) | AI investing, China-US tech, learning |
+
+### Independent Blogs
+
+| Source | Description |
+|--------|-------------|
+| [Lilian Weng](https://lilianweng.github.io) | Former OpenAI safety VP. RL, agents, LLMs, scaling laws. |
+| [Dwarkesh Patel](https://www.dwarkesh.com) | In-depth interviews with AI pioneers and scientists |
+
+### Xiaoyuzhou FM (小宇宙)
+
+| Source | Description |
+|--------|-------------|
+| 张小珺Jùn｜商业访谈录 | 2-7 hour deep interviews: AI, self-driving, robotics, chips |
+| 十字路口Crossing | Koji's podcast: AI × business, agents, coding, startups |
+
 ## Installation
 
 ```bash
 # Install as an AI Agent Skill (recommended)
-npx skills add royce17/ai-signals
+npx skills add royce17/awesome-ai-signals
 
 # Or clone manually
-git clone https://github.com/royce17/ai-signals.git
-cd ai-signals && npm install
+git clone https://github.com/royce17/awesome-ai-signals.git
+cd awesome-ai-signals && npm install
 ```
 
 Works with **Bun** and **Node.js 22+**.
@@ -65,7 +95,7 @@ API + pagination"]
     L --> M["raw/social/
 {platform}/{source}"]
 
-    M --> N[".ai-signals-state.json
+    M --> N[".awesome-ai-signals-state.json
 dedup & incremental"]
 ```
 
@@ -149,4 +179,4 @@ MIT
 
 ---
 
-**Community-curated.** Know a great AI podcast or Substack that belongs here? [Open an issue](https://github.com/Royce17/ai-signals/issues) to recommend it.
+**Community-curated.** Know a great AI podcast or Substack that belongs here? [Open an issue](https://github.com/Royce17/awesome-ai-signals/issues) to recommend it.

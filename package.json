@@ -1,10 +1,10 @@
 {
-  "name": "ai-signals",
+  "name": "awesome-ai-signals",
   "version": "1.0.0",
   "description": "Signal, not noise. Curated AI blogs & podcasts from Substack, Xiaoyuzhou FM, and RSS feeds",
   "type": "module",
   "bin": {
-    "ai-signals": "./scripts/fetch.mjs"
+    "awesome-ai-signals": "./scripts/fetch.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"

@@ -1,16 +1,16 @@
 ---
-name: ai-signals
+name: awesome-ai-signals
 description: Signal, not noise. Curated AI blogs & podcasts from Substack, Xiaoyuzhou FM, and RSS feeds. Tracks Fei-Fei Li, Karpathy, Lilian Weng, Sebastian Raschka, Demis Hassabis, and more. Use when user wants to fetch or track AI thought leaders' content.
 ---
 
-# AI-Signals
+# Awesome AI Signals
 
 Signal, not noise. Curated AI blogs & podcasts from Substack, independent blog RSS feeds, and Xiaoyuzhou FM (with official transcripts).
 
 ## Setup
 
 ```bash
-cd ai-signals
+cd awesome-ai-signals
 bun install   # or npm install
 cp sources.example.yaml sources.yaml   # edit your source list
 ```

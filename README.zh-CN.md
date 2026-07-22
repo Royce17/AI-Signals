@@ -1,20 +1,50 @@
-# AI-Signals
+# Awesome AI Signals
 
-![AI-Signals](assets/banner-dark.svg)
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+
+![Awesome AI Signals](assets/banner-dark.svg)
 
 **Signal, not noise.** 一键抓取 AI 领域高质量信息源的博客和播客，存入本地 Markdown 知识库。
 
 支持 **Substack**、**独立博客 RSS**、**小宇宙播客**（含官方逐字稿）。
 
+## 精选信息源
+
+> 9 位精选 AI 思想领袖，覆盖 3 大平台。完整 YAML 列表见 [`curated/`](curated/)。
+
+### Substack
+
+| 来源 | 简介 |
+|------|------|
+| [Fei-Fei Li](https://drfeifei.substack.com) | 空间智能、世界模型、计算机视觉 |
+| [Sebastian Raschka](https://sebastianraschka.substack.com) | Ahead of AI：LLM 工程、编程 Agent、论文解读 |
+| [Andrej Karpathy](https://karpathy.substack.com) | 前 Tesla/OpenAI AI 负责人，低频但必读 |
+| [Demis Hassabis](https://demishassabis.substack.com) | Google DeepMind CEO，AGI、AlphaFold、强化学习 |
+| [Zara Zhang](https://zarazhang.substack.com) | AI 投资、中美科技、学习方法 |
+
+### 独立博客
+
+| 来源 | 简介 |
+|------|------|
+| [Lilian Weng](https://lilianweng.github.io) | 前 OpenAI 安全 VP，RL、Agent、LLM、Scaling Laws |
+| [Dwarkesh Patel](https://www.dwarkesh.com) | 与 AI 先驱和科学家的深度访谈 |
+
+### 小宇宙 FM
+
+| 来源 | 简介 |
+|------|------|
+| 张小珺Jùn｜商业访谈录 | 2-7 小时深度访谈：AI、自动驾驶、机器人、芯片 |
+| 十字路口Crossing | Koji 的播客：AI × 商业、Agent、编程、创投 |
+
 ## 安装
 
 ```bash
 # 作为 AI Agent Skill 安装（推荐）
-npx skills add royce17/ai-signals
+npx skills add royce17/awesome-ai-signals
 
 # 或手动克隆
-git clone https://github.com/royce17/ai-signals.git
-cd ai-signals && npm install
+git clone https://github.com/royce17/awesome-ai-signals.git
+cd awesome-ai-signals && npm install
 ```
 
 支持 **Bun** 和 **Node.js 22+**。
@@ -67,7 +97,7 @@ API + 分页"]
     L --> M["raw/social/
 {platform}/{source}"]
 
-    M --> N[".ai-signals-state.json
+    M --> N[".awesome-ai-signals-state.json
 去重 + 增量更新"]
 ```
 
@@ -154,4 +184,4 @@ MIT
 
 ---
 
-**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/ai-signals/issues) 推荐它。
+**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/awesome-ai-signals/issues) 推荐它。

@@ -1,14 +1,14 @@
 /**
  * State management for source fetchers.
  * Tracks last fetch position per source per platform to avoid duplicates.
- * State file: ./.ai-signals-state.json (in current working directory)
+ * State file: ./.awesome-ai-signals-state.json (in current working directory)
  */
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { resolve, dirname } from 'path';
 
 // State file lives in the user's project directory (cwd)
-const STATE_PATH = resolve(process.cwd(), '.ai-signals-state.json');
+const STATE_PATH = resolve(process.cwd(), '.awesome-ai-signals-state.json');
 
 function load() {
   if (!existsSync(STATE_PATH)) return {};
