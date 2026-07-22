@@ -1,16 +1,35 @@
 # Awesome AI Signals
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![npm](https://img.shields.io/npm/v/awesome-ai-signals)](https://www.npmjs.com/package/awesome-ai-signals)
 
 ![Awesome AI Signals](assets/banner-dark.svg)
 
-**Signal, not noise.** 一键抓取 AI 领域高质量信息源的博客和播客，存入本地 Markdown 知识库。
+> **Signal, not noise.** 一份精选 AI 信息源列表：9 位持续产出高质量内容的 AI 思想领袖 — 博客、Newsletter、播客。附带一个 CLI 工具，一键同步到本地 Markdown 知识库。
 
-支持 **Substack**、**独立博客 RSS**、**小宇宙播客**（含官方逐字稿）。
+一个社区共建的 [Awesome List](https://awesome.re)，收录值得长期追踪的 AI 内容源。每个入选者都基于其**持续产出原创思考**的能力，而非简单搬运新闻。
 
-## 精选信息源
+---
 
-> 9 位精选 AI 思想领袖，覆盖 3 大平台。完整 YAML 列表见 [`curated/`](curated/)。
+## 目录
+
+- [精选列表](#精选列表)
+  - [Substack](#substack)
+  - [独立博客](#独立博客)
+  - [小宇宙 FM](#小宇宙-fm)
+- [附带的 CLI 工具](#附带的-cli-工具)
+  - [安装](#安装)
+  - [使用](#使用)
+  - [工作原理](#工作原理)
+  - [输出格式](#输出格式)
+- [添加信息源](#添加信息源)
+- [参与贡献](#参与贡献)
+
+---
+
+## 精选列表
+
+> 9 位精选 AI 思想领袖，覆盖 3 大平台。机器可读的 YAML 列表见 [`curated/`](curated/)。
 
 ### Substack
 
@@ -36,10 +55,21 @@
 | 张小珺Jùn｜商业访谈录 | 2-7 小时深度访谈：AI、自动驾驶、机器人、芯片 |
 | 十字路口Crossing | Koji 的播客：AI × 商业、Agent、编程、创投 |
 
-## 安装
+---
+
+## 附带的 CLI 工具
+
+仓库自带 CLI，读完列表一键抓取博文和播客到本地 Markdown——可喂给 LLM、离线阅读、或搭建个人知识库。
+
+支持 **Substack**、**RSS/Atom 博客**、**小宇宙播客**（含官方逐字稿，非本地 Whisper）。
+
+### 安装
 
 ```bash
-# 作为 AI Agent Skill 安装（推荐）
+# npm 全局安装
+npm install -g awesome-ai-signals
+
+# 作为 AI Agent Skill 安装
 npx skills add royce17/awesome-ai-signals
 
 # 或手动克隆
@@ -49,11 +79,21 @@ cd awesome-ai-signals && npm install
 
 支持 **Bun** 和 **Node.js 22+**。
 
-## 快速开始
+### 使用
 
 ```bash
 cp sources.example.yaml sources.yaml   # 编辑你的信息源
-bun run scripts/fetch.mjs              # 抓取所有源
+awesome-ai-signals                     # 抓取所有源
+
+# 或用 Bun
+bun run scripts/fetch.mjs
+
+# 预览模式
+awesome-ai-signals --dry
+
+# 按平台或源筛选
+awesome-ai-signals --platform substack
+awesome-ai-signals --source "Fei-Fei Li"
 ```
 
 小宇宙播客需要登录一次（获取逐字稿和全量历史）：
@@ -66,7 +106,7 @@ bun run scripts/login-xiaoyuzhou.mjs   # 短信验证码登录，30 秒搞定
 export HTTPS_PROXY=http://127.0.0.1:your-port
 ```
 
-## 工作原理
+### 工作原理
 
 ```mermaid
 flowchart LR
@@ -100,6 +140,25 @@ API + 分页"]
     M --> N[".awesome-ai-signals-state.json
 去重 + 增量更新"]
 ```
+
+### 输出格式
+
+```
+raw/social/
+├── substack/
+│   └── drfeifei/
+│       └── 2025-11-10-from-words-to-worlds.md
+├── blog/
+│   └── lilianweng.github.io/
+│       └── 2026-07-04-harness.md
+└── xiaoyuzhou/
+    └── 张小珺Jùn｜商业访谈录/
+        └── 2026-07-22-147. 和蚂蚁灵波沈宇军聊....md
+```
+
+每篇 Markdown 带完整 YAML frontmatter。小宇宙播客包含 **简介 + 时间轴 + 逐字稿**（使用官方 transcript API，非本地 Whisper 转录，零 GPU 消耗，秒级获取）。
+
+---
 
 ## 添加信息源
 
@@ -146,42 +205,21 @@ sources:
 | `blog` | 完整 RSS/Atom URL | `https://example.com/feed.xml` |
 | `xiaoyuzhou` | 小宇宙播客 PID | URL 中 `podcast/` 后面的字符串 |
 
-## 输出格式
+---
 
-```
-raw/social/
-├── substack/
-│   └── drfeifei/
-│       └── 2025-11-10-from-words-to-worlds.md
-├── blog/
-│   └── lilianweng.github.io/
-│       └── 2026-07-04-harness.md
-└── xiaoyuzhou/
-    └── 张小珺Jùn｜商业访谈录/
-        └── 2026-07-22-147. 和蚂蚁灵波沈宇军聊....md
-```
+## 参与贡献
 
-每篇 Markdown 带完整 YAML frontmatter。小宇宙播客包含 **简介 + 时间轴 + 逐字稿**（使用官方 transcript API，非本地 Whisper 转录，零 GPU 消耗，秒级获取）。
+这是一个**社区共建**的 Awesome List。你知道有哪位 AI 博主、Newsletter 作者或播客持续产出原创、高质量内容？
 
-## 特性
+[提 Issue](https://github.com/Royce17/awesome-ai-signals/issues) 或直接发 PR，把信息源加到对应的 `curated/*.yaml` 中。
 
-- 🔌 **多平台统一** — 一个 YAML 管理 Substack、博客 RSS、小宇宙播客
-- 🎙️ **小宇宙官方逐字稿** — 唯一使用官方 transcript API 的工具，无需 GPU
-- 🔐 **小宇宙短信登录** — 内置引导，一次配置长期有效（token 自动刷新）
-- 🌐 **代理支持** — `HTTPS_PROXY` 环境变量，国内用户友好
-- 📥 **增量抓取** — 自动去重，只拉新内容
-- 📝 **Markdown 输出** — 带 frontmatter，可直接喂给 LLM
+收录原则：
+- 必须有持续产出**原创思考**的记录——不只是新闻聚合或链接整理
+- 每条一行，默认注释，附一句话说明这个人是谁
+- Substack 只写子域名；小宇宙只写播客 PID
 
-## 与 AI Agent 配合
-
-作为 skill 安装后，Agent 自动识别。你也可以直接说：
-
-> "帮我把 sources.yaml 里的所有源抓取一遍"
+---
 
 ## License
 
 MIT
-
----
-
-**社区共建。** 你觉得有值得收录的 AI 播客或 Substack？[提 Issue](https://github.com/Royce17/awesome-ai-signals/issues) 推荐它。

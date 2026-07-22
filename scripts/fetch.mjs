@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Awesome AI Signals — Fetch all tracked AI sources.
  *
