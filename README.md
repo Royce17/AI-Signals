@@ -2,7 +2,7 @@
 
 > [中文文档](README.zh-CN.md)
 
-![SourceFetch](assets/banner.png)
+![SourceFetch](assets/banner.svg)
 
 Fetch high-quality AI blogs and podcasts into your local Markdown knowledge base.
 
