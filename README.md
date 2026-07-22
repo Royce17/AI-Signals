@@ -33,9 +33,9 @@ Xiaoyuzhou podcasts require a one-time login (for full history and transcripts):
 bun run scripts/login-xiaoyuzhou.mjs   # SMS login, takes 30 seconds
 ```
 
-For sources behind GFW (Substack, etc.), set a proxy:
+For sources behind GFW (Substack, etc.), set your proxy:
 ```bash
-export HTTPS_PROXY=http://127.0.0.1:7897
+export HTTPS_PROXY=http://127.0.0.1:your-port
 ```
 
 ## How It Works

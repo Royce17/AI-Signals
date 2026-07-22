@@ -31,7 +31,7 @@ bun run scripts/login-xiaoyuzhou.mjs   # 短信验证码登录，30 秒搞定
 
 海外源需要代理：
 ```bash
-export HTTPS_PROXY=http://127.0.0.1:7897
+export HTTPS_PROXY=http://127.0.0.1:your-port
 ```
 
 ## 工作原理
