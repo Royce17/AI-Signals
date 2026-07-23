@@ -6,8 +6,10 @@
  *   2. Transcript page — full timed dialogue
  *
  * Usage:
- *   node scripts/fetchers/lexfridman.mjs
- *   node scripts/fetchers/lexfridman.mjs --dry
+ *   node scripts/fetchers/lexfridman.mjs                    # latest 10 episodes
+ *   node scripts/fetchers/lexfridman.mjs --limit 3          # latest 3
+ *   node scripts/fetchers/lexfridman.mjs --episode 498      # specific episode
+ *   node scripts/fetchers/lexfridman.mjs --dry --limit 5    # preview
  */
 
 import { parseArgs } from 'util';
@@ -220,7 +222,8 @@ function formatTranscript(segments) {
  * Fetch Lex Fridman Podcast episodes with full transcripts.
  * @param {boolean} dry - If true, preview only, don't save
  */
-export async function fetchLexFridman(dry = false) {
+export async function fetchLexFridman(opts = {}) {
+  const { dry = false, limit = 3, episode: episodeFilter } = opts;
   console.log(`  📡 Fetching Lex Fridman Podcast feed...`);
 
   const res = await fetchProxy(FEED_URL, {
@@ -239,23 +242,44 @@ export async function fetchLexFridman(dry = false) {
     return { fetched: 0 };
   }
 
-  // Check which are new
+  // Filter: specific episode number
+  if (episodeFilter != null) {
+    const epNum = String(episodeFilter).replace(/^#/, '');
+    const target = items.find(item => {
+      const m = item.title && item.title.match(/^#(\d+)/);
+      return m && m[1] === epNum;
+    });
+    if (!target) {
+      console.log(`  ⚠️  Episode #${epNum} not found in feed`);
+      return { fetched: 0 };
+    }
+    // Replace items with just the target, but still check dedup
+    items.length = 0;
+    items.push(target);
+  }
+
+  // Check which are new (with optional limit)
   const newItems = [];
   for (const item of items) {
+    if (newItems.length >= limit) break;
     const id = slugFromURL(item.link);
-    if (!id || isDuplicate(PLATFORM, KEY, id)) continue;
+    if (!id) continue;
+    // When targeting a specific episode, bypass dedup
+    if (!episodeFilter && isDuplicate(PLATFORM, KEY, id)) continue;
     newItems.push({ ...item, _id: id });
   }
 
+  const limitNote = episodeFilter ? `episode #${episodeFilter}` : `latest ${limit}`;
+
   if (dry) {
-    console.log(`  🔍 ${KEY}: ${items.length} total, ${newItems.length} new (dry run)`);
+    console.log(`  🔍 ${KEY}: ${items.length} total, ${newItems.length} new (${limitNote}, dry run)`);
     for (const item of newItems.slice(0, 5)) {
       console.log(`     - ${item.title}`);
     }
     return { fetched: 0 };
   }
 
-  console.log(`  📥 ${KEY}: ${items.length} total, ${newItems.length} new`);
+  console.log(`  📥 ${KEY}: ${newItems.length} episodes (${limitNote})`);
 
   let fetched = 0;
 
@@ -347,11 +371,11 @@ export async function fetchLexFridman(dry = false) {
     fetched++;
   }
 
-  if (fetched > 0) {
+  if (fetched > 0 && !episodeFilter) {
     markFetched(PLATFORM, KEY, newItems.map(i => i._id), newItems[0]._id);
   }
 
-  console.log(`  ✅ ${KEY}: ${fetched} new episodes saved`);
+  console.log(`  ✅ ${KEY}: ${fetched} episodes saved`);
   return { fetched };
 }
 
@@ -360,14 +384,19 @@ export async function fetchLexFridman(dry = false) {
 async function main() {
   const { values } = parseArgs({
     options: {
-      dry: { type: 'boolean', default: false },
+      dry:     { type: 'boolean', default: false },
+      limit:   { type: 'string', short: 'n' },
+      episode: { type: 'string', short: 'e' },
     },
     strict: false,
   });
 
   const dry = values.dry || process.argv.includes('--dry');
+  const limit = values.limit ? parseInt(values.limit, 10) : 3;
+  const episode = values.episode || null;
+
   console.log(`${dry ? '🔍 DRY RUN' : '📥 FETCH'} — Lex Fridman Podcast\n`);
-  await fetchLexFridman(dry);
+  await fetchLexFridman({ dry, limit, episode });
 }
 
 if (import.meta.main) {

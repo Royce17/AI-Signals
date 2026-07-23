@@ -33,17 +33,19 @@ function loadSources() {
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { dry: false, source: null, platform: null };
+  const opts = { dry: false, source: null, platform: null, limit: 3, episode: null };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--dry') opts.dry = true;
     else if (args[i] === '--source' && args[i + 1]) opts.source = args[++i];
     else if (args[i] === '--platform' && args[i + 1]) opts.platform = args[++i];
+    else if ((args[i] === '--limit' || args[i] === '-n') && args[i + 1]) opts.limit = parseInt(args[++i], 10);
+    else if ((args[i] === '--episode' || args[i] === '-e') && args[i + 1]) opts.episode = args[++i];
   }
   return opts;
 }
 
 async function main() {
-  const { dry, source: sourceFilter, platform: platformFilter } = parseArgs();
+  const { dry, source: sourceFilter, platform: platformFilter, limit, episode } = parseArgs();
   const allSources = loadSources();
 
   let sources = allSources;
@@ -74,7 +76,7 @@ async function main() {
 
     if (source.substack && (!platformFilter || platformFilter === 'substack')) {
       try {
-        const result = await fetchSubstack(source.substack, dry);
+        const result = await fetchSubstack(source.substack, dry, source.feed);
         totalFetched += result.fetched;
       } catch (err) {
         console.log(`  ❌ Substack error: ${err.message}`);
@@ -104,7 +106,7 @@ async function main() {
 
     if (source.lexfridman && (!platformFilter || platformFilter === 'lexfridman')) {
       try {
-        const result = await fetchLexFridman(dry);
+        const result = await fetchLexFridman({ dry, limit, episode });
         totalFetched += result.fetched;
       } catch (err) {
         console.log(`  ❌ Lex Fridman error: ${err.message}`);
