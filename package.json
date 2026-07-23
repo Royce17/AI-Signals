@@ -1,7 +1,7 @@
 {
   "name": "awesome-ai-signals",
   "version": "1.1.0",
-  "description": "Signal, not noise. Curated AI blogs & podcasts from Substack, Xiaoyuzhou FM, Lex Fridman, and RSS feeds — with transcripts",
+  "description": "Signal, not noise. Curated AI blogs & podcasts from Substack, Xiaoyuzhou FM, blogs, and RSS feeds — with transcripts",
   "type": "module",
   "bin": {
     "awesome-ai-signals": "scripts/fetch.mjs"
