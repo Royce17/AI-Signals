@@ -57,6 +57,15 @@ sources:
     tags: [ai, podcasts, interviews, science]
 
   # ══════════════════════════════════════════════════════════════
+  # Lex Fridman Podcast
+  # ══════════════════════════════════════════════════════════════
+
+  # Lex Fridman — Deep conversations on AI, science, philosophy, history, and more
+  - name: "Lex Fridman Podcast"
+    lexfridman: true
+    tags: [ai, podcast, interviews, science, technology, philosophy]
+
+  # ══════════════════════════════════════════════════════════════
   # Xiaoyuzhou FM (小宇宙) Podcasts
   # Login first: bun run scripts/login-xiaoyuzhou.mjs
   # ══════════════════════════════════════════════════════════════

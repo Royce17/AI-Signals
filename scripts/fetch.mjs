@@ -17,6 +17,7 @@ import yaml from 'js-yaml';
 import { fetchSubstack } from './fetchers/substack.mjs';
 import { fetchXiaoyuzhou } from './fetchers/xiaoyuzhou.mjs';
 import { fetchBlog } from './fetchers/blog.mjs';
+import { fetchLexFridman } from './fetchers/lexfridman.mjs';
 
 const SOURCES_PATH = resolve(process.cwd(), 'sources.yaml');
 
@@ -93,11 +94,21 @@ async function main() {
 
     if (source.blog && (!platformFilter || platformFilter === 'blog')) {
       try {
-        const result = await fetchBlog(source.blog);
+        const result = await fetchBlog(source.blog, null, dry);
         totalFetched += result.fetched;
       } catch (err) {
         console.log(`  ❌ Blog error: ${err.message}`);
         errors.push({ source: label, platform: 'blog', error: err.message });
+      }
+    }
+
+    if (source.lexfridman && (!platformFilter || platformFilter === 'lexfridman')) {
+      try {
+        const result = await fetchLexFridman(dry);
+        totalFetched += result.fetched;
+      } catch (err) {
+        console.log(`  ❌ Lex Fridman error: ${err.message}`);
+        errors.push({ source: label, platform: 'lexfridman', error: err.message });
       }
     }
   }

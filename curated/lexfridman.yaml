@@ -1,0 +1,12 @@
+# Curated Lex Fridman Podcast Sources
+# Deep conversations on AI, science, philosophy, history, and more.
+#
+# Each episode includes full transcript with speaker timestamps.
+
+sources:
+
+  # Lex Fridman — Research Scientist at MIT. Deep interviews with AI pioneers,
+  # scientists, philosophers, historians, and technologists.
+  # - name: "Lex Fridman Podcast"
+  #   lexfridman: true
+  #   tags: [ai, podcast, interviews, science, technology, philosophy]

@@ -1,3 +1,11 @@
 node_modules/
 .env
+
+# Generated output (raw fetched content)
+raw/
+
+# Incremental fetch state
 .awesome-ai-signals-state.json
+
+# User's personal source list (copy from sources.example.yaml)
+sources.yaml
