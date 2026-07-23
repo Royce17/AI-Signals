@@ -15,8 +15,7 @@ A community-curated [Awesome List](https://awesome.re) of AI content sources wor
 
 - [The List](#the-list)
   - [Substack](#substack)
-  - [Independent Blogs](#independent-blogs)
-  - [Podcasts](#podcasts)
+  - [Independent Blogs & Podcasts](#independent-blogs--podcasts)
   - [Xiaoyuzhou FM (小宇宙)](#xiaoyuzhou-fm-小宇宙)
 - [Bundled CLI](#bundled-cli)
   - [Installation](#installation)
@@ -43,18 +42,13 @@ A community-curated [Awesome List](https://awesome.re) of AI content sources wor
 | [Lenny Rachitsky](https://www.lennysnewsletter.com) | Product, growth, AI. Articles + Lenny's Podcast + How I AI. Full transcripts included. |
 | [Zara Zhang](https://zarazhang.substack.com) | AI investing, China-US tech, learning |
 
-### Podcasts
-
-| Source | Description |
-|--------|-------------|
-| [Lex Fridman Podcast](https://lexfridman.com/podcast) | Deep conversations on AI, science, philosophy, history. Full transcripts from YouTube. |
-
-### Independent Blogs
+### Independent Blogs & Podcasts
 
 | Source | Description |
 |--------|-------------|
 | [Lilian Weng](https://lilianweng.github.io) | Former OpenAI safety VP. RL, agents, LLMs, scaling laws. |
 | [Dwarkesh Patel](https://www.dwarkesh.com) | In-depth interviews with AI pioneers and scientists |
+| [Lex Fridman Podcast](https://lexfridman.com/podcast) | Deep conversations on AI, science, philosophy, history. Full transcripts from YouTube. |
 
 ### Xiaoyuzhou FM (小宇宙)
 
