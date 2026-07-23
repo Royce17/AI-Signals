@@ -1,10 +1,9 @@
 /**
  * Lex Fridman Podcast fetcher.
  *
- * Fetches RSS feed at https://lexfridman.com/feed/podcast/ for episode
- * metadata, then scrapes full transcripts from individual transcript pages.
- *
- * Output format: [HH:MM:SS] Speaker: text
+ * Fetches RSS feed for episode discovery, then scrapes:
+ *   1. Episode main page — description, links, sponsors, outline
+ *   2. Transcript page — full timed dialogue
  *
  * Usage:
  *   node scripts/fetchers/lexfridman.mjs
@@ -107,6 +106,91 @@ function extractTranscriptUrl(description, episodeLink) {
   return null;
 }
 
+// ── Episode main page parsing ──
+
+/**
+ * Clean episode link: strip UTM params and trailing slash.
+ */
+function cleanEpisodeURL(link) {
+  if (!link) return null;
+  try {
+    const url = new URL(link);
+    return url.origin + url.pathname.replace(/\/$/, '') + '/';
+  } catch {
+    return link.replace(/\?.*$/, '').replace(/\/$/, '') + '/';
+  }
+}
+
+/**
+ * Parse the main episode page (not the transcript page).
+ * Extracts: intro description, episode links, sponsors, outline.
+ */
+function parseEpisodePage(html) {
+  const sections = { description: '', links: '', sponsors: '', outline: '' };
+
+  // Extract <div class="entry-content"> ... </div> (before the <!-- .entry-content --> comment and footer)
+  const contentMatch = html.match(/<div\s+class="entry-content">([\s\S]*?)<\/div>\s*<!--\s*\.entry-content/i);
+  if (!contentMatch) return sections;
+  let content = contentMatch[1];
+
+  // Remove audio player, iframe embeds, subscribe links
+  content = content.replace(/<div\s+class="powerpress_player"[^>]*>[\s\S]*?<\/div>/gi, '');
+  content = content.replace(/<p\s+class="powerpress_links[^"]*"[^>]*>[\s\S]*?<\/p>/gi, '');
+  content = content.replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '');
+
+  // Split into <p> blocks
+  const paras = [...content.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)];
+  const blocks = paras.map(m => m[1].trim()).filter(Boolean);
+
+  // The first substantial paragraph is the description
+  if (blocks.length > 0) {
+    // First paragraph after audio player is the description
+    sections.description = htmlToMarkdown(blocks[0]);
+  }
+
+  // Collect all blocks and identify sections by headings
+  let currentSection = '';
+  for (const block of blocks) {
+    const stripped = stripHTML(block);
+
+    if (/^EPISODE LINKS:/i.test(stripped)) {
+      currentSection = 'links';
+      sections.links = htmlToMarkdown(block) + '\n';
+    } else if (/^SPONSORS:/i.test(stripped)) {
+      currentSection = 'sponsors';
+      sections.sponsors = htmlToMarkdown(block) + '\n';
+    } else if (/^OUTLINE:/i.test(stripped)) {
+      currentSection = 'outline';
+      sections.outline = htmlToMarkdown(block) + '\n';
+    } else if (/^(CONTACT LEX|PODCAST LINKS|Transcript):/i.test(stripped)) {
+      currentSection = '';
+    } else if (currentSection) {
+      sections[currentSection] += htmlToMarkdown(block) + '\n';
+    }
+  }
+
+  return sections;
+}
+
+/**
+ * Convert basic HTML to Markdown (paragraphs, links, bold, line breaks).
+ */
+function htmlToMarkdown(html) {
+  if (!html) return '';
+  return html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+    .replace(/<b>(.*?)<\/b>/gi, '**$1**')
+    .replace(/<a\s+href="(.*?)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)))
+    .replace(/<!\[CDATA\[(.*?)\]\]>/gs, '$1')
+    .replace(/\n{3,}/g, '\n\n').trim();
+}
+
 // ── Transcript parsing ──
 
 function parseTranscript(html) {
@@ -177,11 +261,25 @@ export async function fetchLexFridman(dry = false) {
 
   for (const item of newItems) {
     const postSlug = slugFromURL(item.link);
-
-    // Try to fetch transcript
+    const episodeURL = cleanEpisodeURL(item.link);
     const transcriptUrl = extractTranscriptUrl(item.description, item.link);
-    let body = '';
 
+    // Fetch episode main page for description, links, sponsors, outline
+    let episodeMeta = { description: '', links: '', sponsors: '', outline: '' };
+    try {
+      const epRes = await fetchProxy(episodeURL, {
+        headers: { 'User-Agent': 'knowbase-fetcher/1.0' }
+      });
+      if (epRes.ok) {
+        episodeMeta = parseEpisodePage(await epRes.text());
+      }
+    } catch (err) {
+      console.log(`    ⚠️  Episode page fetch failed: ${err.message}`);
+    }
+
+    // Fetch transcript
+    let transcriptBody = '';
+    let segmentCount = 0;
     if (transcriptUrl) {
       console.log(`    📡 Transcript: ${postSlug}`);
       try {
@@ -192,7 +290,8 @@ export async function fetchLexFridman(dry = false) {
           const html = await txRes.text();
           const segments = parseTranscript(html);
           if (segments.length > 0) {
-            body = formatTranscript(segments);
+            transcriptBody = formatTranscript(segments);
+            segmentCount = segments.length;
             console.log(`      ✅ ${segments.length} segments`);
           } else {
             console.log(`      ⚠️  No ts-segment blocks found`);
@@ -203,16 +302,29 @@ export async function fetchLexFridman(dry = false) {
       } catch (err) {
         console.log(`      ⚠️  Transcript fetch failed: ${err.message}`);
       }
-    } else {
-      console.log(`    ⚠️  No transcript URL found for ${postSlug}`);
+    }
+
+    // Assemble full content
+    let body = '';
+    if (episodeMeta.description) {
+      body += `> ${episodeMeta.description}\n\n`;
+    }
+    if (episodeMeta.links) {
+      body += `## Episode Links\n\n${episodeMeta.links}\n`;
+    }
+    if (episodeMeta.sponsors) {
+      body += `## Sponsors\n\n${episodeMeta.sponsors}\n`;
+    }
+    if (episodeMeta.outline) {
+      body += `## Outline\n\n${episodeMeta.outline}\n`;
+    }
+    if (transcriptBody) {
+      body += `## Transcript\n\n${transcriptBody}\n`;
     }
 
     // Fallback: use RSS description
-    if (!body) {
-      const descText = item.description
-        ? stripHTML(item.description)
-        : '';
-      body = descText || '(No transcript available)';
+    if (!body.trim()) {
+      body = item.description ? stripHTML(item.description) : '(No content available)';
     }
 
     saveRaw({
@@ -220,12 +332,13 @@ export async function fetchLexFridman(dry = false) {
       key: KEY,
       id: postSlug,
       title: item.title,
-      url: item.link,
+      url: episodeURL,
       author: 'Lex Fridman',
       sourceDate: parseRSSDate(item.pubDate),
-      content: body,
+      content: body.trim(),
       meta: {
         transcript_url: transcriptUrl || null,
+        transcript_segments: segmentCount || null,
         guid: item.guid,
         pub_date: item.pubDate,
       },
