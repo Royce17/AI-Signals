@@ -3,7 +3,7 @@
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![npm](https://img.shields.io/npm/v/awesome-ai-signals)](https://www.npmjs.com/package/awesome-ai-signals)
 
-> **Signal, not noise.** 一份精选 AI 信息源列表：9 位持续产出高质量内容的 AI 思想领袖 — 博客、Newsletter、播客。附带一个 CLI 工具，一键同步到本地 Markdown 知识库。
+> **Signal, not noise.** 一份精选 AI 信息源列表：11 位持续产出高质量内容的 AI 思想领袖 — 博客、Newsletter、播客。附带一个 CLI 工具，一键同步到本地 Markdown 知识库。
 
 一个社区共建的 [Awesome List](https://awesome.re)，收录值得长期追踪的 AI 内容源。每个入选者都基于其**持续产出原创思考**的能力，而非简单搬运新闻。
 
@@ -13,7 +13,7 @@
 
 - [精选列表](#精选列表)
   - [Substack](#substack)
-  - [独立博客](#独立博客)
+  - [独立博客与播客](#独立博客与播客)
   - [小宇宙 FM](#小宇宙-fm)
 - [附带的 CLI 工具](#附带的-cli-工具)
   - [安装](#安装)
@@ -27,7 +27,7 @@
 
 ## 精选列表
 
-> 9 位精选 AI 思想领袖，覆盖 3 大平台。机器可读的 YAML 列表见 [`curated/`](curated/)。
+> 11 位精选 AI 思想领袖，覆盖 4 大平台。机器可读的 YAML 列表见 [`curated/`](curated/)。
 
 ### Substack
 
@@ -37,14 +37,16 @@
 | [Sebastian Raschka](https://sebastianraschka.substack.com) | Ahead of AI：LLM 工程、编程 Agent、论文解读 |
 | [Andrej Karpathy](https://karpathy.substack.com) | 前 Tesla/OpenAI AI 负责人，低频但必读 |
 | [Demis Hassabis](https://demishassabis.substack.com) | Google DeepMind CEO，AGI、AlphaFold、强化学习 |
+| [Lenny Rachitsky](https://www.lennysnewsletter.com) | 产品、增长、AI。文章 + Lenny's Podcast + How I AI。含完整逐字稿。 |
 | [Zara Zhang](https://zarazhang.substack.com) | AI 投资、中美科技、学习方法 |
 
-### 独立博客
+### 独立博客与播客
 
 | 来源 | 简介 |
 |------|------|
 | [Lilian Weng](https://lilianweng.github.io) | 前 OpenAI 安全 VP，RL、Agent、LLM、Scaling Laws |
 | [Dwarkesh Patel](https://www.dwarkesh.com) | 与 AI 先驱和科学家的深度访谈 |
+| [Lex Fridman Podcast](https://lexfridman.com/podcast) | AI、科学、哲学、历史的深度对话。含 YouTube 逐字稿。 |
 
 ### 小宇宙 FM
 
@@ -61,7 +63,7 @@
 
 仓库自带 CLI，读完列表一键抓取博文和播客到本地 Markdown——可喂给 LLM、离线阅读、或搭建个人知识库。
 
-支持 **Substack**、**RSS/Atom 博客**、**小宇宙播客**（含官方逐字稿，非本地 Whisper）。
+支持 **Substack**、**RSS/Atom 博客**、**Lex Fridman Podcast**、**小宇宙播客**（全部含逐字稿，非本地 Whisper）。
 
 ### 安装
 
@@ -101,6 +103,17 @@ awesome-ai-signals --source "Fei-Fei Li"
 bun run scripts/login-xiaoyuzhou.mjs   # 短信验证码登录，30 秒搞定
 ```
 
+Substack 源如果被墙，可使用自定义域名：
+```yaml
+- name: "Lenny Rachitsky"
+  lennysnewsletter: true
+  feed: "https://www.lennysnewsletter.com/feed"
+```
+
+Lenny's Newsletter 使用专用抓取器，自动：
+- 按 `articles/`、`podcast/`、`community/` 分类存储
+- 为播客集抓取 Substack CDN 上的完整逐字稿
+
 海外源需要代理：
 ```bash
 export HTTPS_PROXY=http://127.0.0.1:your-port
@@ -114,11 +127,22 @@ flowchart LR
     B --> C{平台?}
 
     C -->|substack| D[Substack RSS]
+    C -->|lennysnewsletter| D2["Lenny's RSS
++ 分类
++ 逐字稿 CDN"]
     C -->|blog| E[Blog RSS]
+    C -->|lexfridman| E2["Lex Fridman
+YouTube API"]
     C -->|xiaoyuzhou| F{小宇宙}
 
     D --> G[解析 XML]
+    D2 --> G
     E --> G
+    E2 --> G2["yt-dlp JSON
++ 逐字稿"]
+
+    G --> L[Markdown + frontmatter]
+    G2 --> L
 
     F -->|免登录| H["抓取网页
 Next.js __NEXT_DATA__"]
@@ -130,7 +154,6 @@ API + 分页"]
 + 时间轴
 + 逐字稿 API"]
 
-    G --> L[Markdown + frontmatter]
     J --> L
     K --> L
 
@@ -146,17 +169,27 @@ API + 分页"]
 ```
 raw/social/
 ├── substack/
-│   └── drfeifei/
-│       └── 2025-11-10-from-words-to-worlds.md
+│   ├── drfeifei/
+│   │   └── 2025-11-10-from-words-to-worlds.md
+│   └── lenny/
+│       ├── articles/
+│       │   └── 2026-07-21-how-to-take-a-sabbatical.md
+│       ├── podcast/
+│       │   └── 2026-07-19-netflix-cpto-on-ai-and-the-future.md
+│       └── community/
+│           └── 2026-07-11-community-wisdom-negative-network.md
 ├── blog/
 │   └── lilianweng.github.io/
 │       └── 2026-07-04-harness.md
+├── lexfridman/
+│   └── lexfridman/
+│       └── 2026-05-06-ffmpeg.md
 └── xiaoyuzhou/
     └── 张小珺Jùn｜商业访谈录/
         └── 2026-07-22-147. 和蚂蚁灵波沈宇军聊....md
 ```
 
-每篇 Markdown 带完整 YAML frontmatter。小宇宙播客包含 **简介 + 时间轴 + 逐字稿**（使用官方 transcript API，非本地 Whisper 转录，零 GPU 消耗，秒级获取）。
+每篇 Markdown 带完整 YAML frontmatter。播客集包含 **简介 + show notes + 逐字稿**（来自 Substack CDN、YouTube API 或小宇宙官方 transcript API——非本地 Whisper，零 GPU 消耗，秒级获取）。
 
 ---
 
@@ -182,6 +215,15 @@ sources:
   - name: "Sebastian Raschka"
     substack: "sebastianraschka"
 
+  # Substack 自定义域名 + 分类 + 逐字稿
+  - name: "Lenny Rachitsky"
+    lennysnewsletter: true
+    feed: "https://www.lennysnewsletter.com/feed"
+
+  # 播客（含逐字稿）
+  - name: "Lex Fridman Podcast"
+    lexfridman: true
+
   # 独立博客（任意 RSS/Atom feed）
   - name: "Lilian Weng"
     blog: "https://lilianweng.github.io/index.xml"
@@ -202,6 +244,8 @@ sources:
 | 字段 | 格式 | 示例 |
 |------|------|------|
 | `substack` | Substack 子域名 | `drfeifei` → `drfeifei.substack.com` |
+| `lennysnewsletter` | `true`（自动分类 + 逐字稿） | 需配合 `feed` 字段指定自定义域名 |
+| `lexfridman` | `true`（抓取最新集 + 逐字稿） | — |
 | `blog` | 完整 RSS/Atom URL | `https://example.com/feed.xml` |
 | `xiaoyuzhou` | 小宇宙播客 PID | URL 中 `podcast/` 后面的字符串 |
 
@@ -216,7 +260,7 @@ sources:
 收录原则：
 - 必须有持续产出**原创思考**的记录——不只是新闻聚合或链接整理
 - 每条一行，默认注释，附一句话说明这个人是谁
-- Substack 只写子域名；小宇宙只写播客 PID
+- Substack 只写子域名（Lenny's Newsletter 使用 `lennysnewsletter` 字段以启用分类）；小宇宙只写播客 PID
 
 ---
 
