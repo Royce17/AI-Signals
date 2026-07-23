@@ -35,6 +35,15 @@ sources:
     substack: "demishassabis"
     tags: [ai, agi, deepmind, rl]
 
+  # ── Product / Growth / AI ──
+
+  # Lenny Rachitsky — Product, growth, AI. Host of Lenny's Podcast.
+  # Uses dedicated fetcher with categorization (articles/podcast/community) and transcripts.
+  - name: "Lenny Rachitsky"
+    lennysnewsletter: true
+    feed: "https://www.lennysnewsletter.com/feed"
+    tags: [product, growth, ai, podcasts]
+
   # ── AI Investing / China-US Tech ──
 
   # Zara Zhang — AI investing, China-US tech, learning

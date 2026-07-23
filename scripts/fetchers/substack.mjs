@@ -120,8 +120,8 @@ function slugFromURL(url) {
  * @param {boolean} dry - if true, only print what would be fetched
  * @returns {{ fetched: number, items: object[] }}
  */
-export async function fetchSubstack(blog, dry = false) {
-  const feedURL = `https://${blog}.substack.com/feed`;
+export async function fetchSubstack(blog, dry = false, customFeed = null) {
+  const feedURL = customFeed || `https://${blog}.substack.com/feed`;
   console.log(`  📡 Fetching ${feedURL}`);
 
   const res = await fetchProxy(feedURL, {

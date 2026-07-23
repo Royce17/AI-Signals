@@ -18,6 +18,7 @@ import { fetchSubstack } from './fetchers/substack.mjs';
 import { fetchXiaoyuzhou } from './fetchers/xiaoyuzhou.mjs';
 import { fetchBlog } from './fetchers/blog.mjs';
 import { fetchLexFridman } from './fetchers/lexfridman.mjs';
+import { fetchLennysNewsletter } from './fetchers/lennysnewsletter.mjs';
 
 const SOURCES_PATH = resolve(process.cwd(), 'sources.yaml');
 
@@ -73,6 +74,17 @@ async function main() {
   for (const source of sources) {
     const label = source.name;
     console.log(`── ${label} ──`);
+
+    if (source.lennysnewsletter && (!platformFilter || platformFilter === 'substack')) {
+      try {
+        const feedURL = source.feed || 'https://www.lennysnewsletter.com/feed';
+        const result = await fetchLennysNewsletter(feedURL, dry);
+        totalFetched += result.fetched;
+      } catch (err) {
+        console.log(`  ❌ Lenny's Newsletter error: ${err.message}`);
+        errors.push({ source: label, platform: 'lennysnewsletter', error: err.message });
+      }
+    }
 
     if (source.substack && (!platformFilter || platformFilter === 'substack')) {
       try {

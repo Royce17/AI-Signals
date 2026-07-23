@@ -16,7 +16,9 @@ const RAW_DIR = process.env.AISIGNALS_OUTPUT
 export function saveRaw(opts) {
   const { platform, key, id, title, url, author, sourceDate, content, meta = {}, filename: customFilename } = opts;
 
-  const dir = resolve(RAW_DIR, platform, sanitize(key));
+  // Support subdirectories in key (e.g. "lenny/podcast")
+  const keyParts = key.split('/').map(sanitize);
+  const dir = resolve(RAW_DIR, platform, ...keyParts);
   mkdirSync(dir, { recursive: true });
 
   const dateStr = sourceDate ? sourceDate.slice(0, 10) : new Date().toISOString().slice(0, 10);
