@@ -10,9 +10,10 @@ Awesome-AI-Signals — CLI tool that fetches curated AI blogs/podcasts from Subs
 
 ```
 sources.yaml          →   scripts/fetch.mjs (entry point)
-                            ├── fetchers/substack.mjs   → RSS → parseRSSItems() regex
-                            ├── fetchers/blog.mjs       → RSS/Atom
-                            └── fetchers/xiaoyuzhou.mjs → web scrape / API
+                            ├── fetchers/substack.mjs    → RSS → parseRSSItems() regex
+                            ├── fetchers/blog.mjs        → RSS/Atom
+                            ├── fetchers/xiaoyuzhou.mjs  → web scrape / API
+                            └── fetchers/lexfridman.mjs  → RSS + main page + transcript scraper
                             all use:
                             ├── lib/storage.mjs    → saveRaw() → raw/social/{platform}/{key}/
                             ├── lib/state.mjs      → .awesome-ai-signals-state.json (dedup cursor)
@@ -24,6 +25,7 @@ sources.yaml          →   scripts/fetch.mjs (entry point)
 - **No XML parser dependency.** Substack RSS is parsed with regex (`/<item>([\s\S]*?)<\/item>/gi`). This is intentional — RSS 2.0 item structure is predictable. Do not add an XML library unless adding Atom support that requires it.
 - **Incremental fetch via state file.** `.awesome-ai-signals-state.json` stores `lastUrls[]` per platform/key. `isDuplicate()` checks this before saving. Keep this approach — don't switch to timestamp-only dedup.
 - **Xiaoyuzhou uses official transcript API** (not local Whisper). Login flow saves tokens to `~/.awesome-ai-signals/`.
+- **Lex Fridman fetches RSS for discovery, then scrapes each episode's main page** (description, links, sponsors, outline) **and transcript page** (full timed dialogue in `[HH:MM:SS] Speaker: text` format). Default: latest 3 episodes.
 
 ## Commands
 
@@ -31,6 +33,9 @@ sources.yaml          →   scripts/fetch.mjs (entry point)
 bun run scripts/fetch.mjs                  # fetch all sources
 bun run scripts/fetch.mjs --dry            # preview only
 bun run scripts/fetch.mjs --platform substack
+bun run scripts/fetch.mjs --platform lexfridman
+bun run scripts/fetch.mjs --platform lexfridman --limit 5
+bun run scripts/fetch.mjs --platform lexfridman --episode 498
 bun run scripts/fetch.mjs --source "Fei-Fei Li"
 bun run scripts/login-xiaoyuzhou.mjs       # one-time SMS login
 ```
@@ -46,6 +51,7 @@ bun run scripts/login-xiaoyuzhou.mjs       # one-time SMS login
 | `scripts/fetchers/substack.mjs` | Substack RSS fetcher |
 | `scripts/fetchers/blog.mjs` | Generic RSS/Atom blog fetcher |
 | `scripts/fetchers/xiaoyuzhou.mjs` | Xiaoyuzhou FM podcast fetcher |
+| `scripts/fetchers/lexfridman.mjs` | Lex Fridman Podcast fetcher (RSS + main page + transcript) |
 | `scripts/fetchers/lib/state.mjs` | Read/write `.awesome-ai-signals-state.json` |
 | `scripts/fetchers/lib/storage.mjs` | Write Markdown + YAML frontmatter to `raw/social/` |
 | `scripts/fetchers/lib/fetch-proxy.mjs` | Fetch wrapper with `HTTPS_PROXY` support |
@@ -106,11 +112,12 @@ YAML frontmatter generated via `js-yaml` dump in `storage.mjs`.
 
 ### Adding a source to curated lists
 
-1. Open the appropriate file in `curated/` (`substack.yaml`, `blogs.yaml`, or `xiaoyuzhou.yaml`)
+1. Open the appropriate file in `curated/` (`substack.yaml`, `blogs.yaml`, `xiaoyuzhou.yaml`, or `lexfridman.yaml`)
 2. Add the entry commented out, following existing format
 3. Include a one-line comment describing who they are
 4. For Substack: the `substack` field is the subdomain only (e.g., `demishassabis` from `demishassabis.substack.com`)
 5. For Xiaoyuzhou: the PID is the hex string in the podcast URL after `podcast/`
+6. For Lex Fridman: `lexfridman: true` (only one source, just uncomment it)
 
 ### Adding a new platform
 
@@ -126,6 +133,7 @@ YAML frontmatter generated via `js-yaml` dump in `storage.mjs`.
 - Check `console` output for error messages with platform tags
 - Verify `HTTPS_PROXY` is set if the user is behind GFW
 - For Substack: open `https://{blog}.substack.com/feed` in a browser to confirm the feed exists
+- For Lex Fridman: `--limit`/`-n` controls number of episodes (default 3), `--episode`/`-e` targets a specific episode number (e.g., `-e 498`). The fetcher scrapes both the main episode page (description, links, sponsors, outline) and the transcript page (timed dialogue parsed from `ts-segment` divs).
 - For Xiaoyuzhou: ensure login was completed (`bun run scripts/login-xiaoyuzhou.mjs`)
 - State file `.awesome-ai-signals-state.json` can be deleted to force a full refetch
 
