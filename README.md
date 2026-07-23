@@ -3,7 +3,7 @@
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![npm](https://img.shields.io/npm/v/awesome-ai-signals)](https://www.npmjs.com/package/awesome-ai-signals)
 
-> **Signal, not noise.** A curated list of 9 hand-picked AI thought leaders — blogs, newsletters, and podcasts that consistently deliver high-signal content.
+> **Signal, not noise.** A curated list of 11 hand-picked AI thought leaders — blogs, newsletters, and podcasts that consistently deliver high-signal content.
 >
 > Comes with a CLI to sync everything to your local Markdown knowledge base.
 
@@ -16,6 +16,7 @@ A community-curated [Awesome List](https://awesome.re) of AI content sources wor
 - [The List](#the-list)
   - [Substack](#substack)
   - [Independent Blogs](#independent-blogs)
+  - [Podcasts](#podcasts)
   - [Xiaoyuzhou FM (小宇宙)](#xiaoyuzhou-fm-小宇宙)
 - [Bundled CLI](#bundled-cli)
   - [Installation](#installation)
@@ -29,7 +30,7 @@ A community-curated [Awesome List](https://awesome.re) of AI content sources wor
 
 ## The List
 
-> 9 hand-picked AI thought leaders across 3 platforms. See [`curated/`](curated/) for machine-readable YAML lists.
+> 11 hand-picked AI thought leaders across 4 platforms. See [`curated/`](curated/) for machine-readable YAML lists.
 
 ### Substack
 
@@ -39,7 +40,14 @@ A community-curated [Awesome List](https://awesome.re) of AI content sources wor
 | [Sebastian Raschka](https://sebastianraschka.substack.com) | Ahead of AI: LLM engineering, coding agents, paper reviews |
 | [Andrej Karpathy](https://karpathy.substack.com) | Former Tesla/OpenAI AI lead. Infrequent but essential. |
 | [Demis Hassabis](https://demishassabis.substack.com) | CEO of Google DeepMind. AGI, AlphaFold, RL. |
+| [Lenny Rachitsky](https://www.lennysnewsletter.com) | Product, growth, AI. Articles + Lenny's Podcast + How I AI. Full transcripts included. |
 | [Zara Zhang](https://zarazhang.substack.com) | AI investing, China-US tech, learning |
+
+### Podcasts
+
+| Source | Description |
+|--------|-------------|
+| [Lex Fridman Podcast](https://lexfridman.com/podcast) | Deep conversations on AI, science, philosophy, history. Full transcripts from YouTube. |
 
 ### Independent Blogs
 
@@ -63,7 +71,7 @@ A community-curated [Awesome List](https://awesome.re) of AI content sources wor
 
 The repository ships with a CLI tool that reads this list and fetches posts/episodes into local Markdown files — ready for LLM ingest, offline reading, or personal knowledge base.
 
-Supports **Substack**, **RSS/Atom blogs**, and **Xiaoyuzhou FM podcasts** (with official word-for-word transcripts, not local Whisper).
+Supports **Substack**, **RSS/Atom blogs**, **Lex Fridman Podcast**, and **Xiaoyuzhou FM podcasts** (all with word-for-word transcripts, not local Whisper).
 
 ### Installation
 
@@ -103,6 +111,17 @@ Xiaoyuzhou podcasts require a one-time SMS login (for full history and transcrip
 bun run scripts/login-xiaoyuzhou.mjs
 ```
 
+For Substack sources behind GFW, you can use a custom feed URL:
+```yaml
+- name: "Lenny Rachitsky"
+  lennysnewsletter: true
+  feed: "https://www.lennysnewsletter.com/feed"
+```
+
+Lenny's Newsletter uses a dedicated fetcher that automatically:
+- Categorizes posts into `articles/`, `podcast/`, `community/` subdirectories
+- Fetches full word-for-word transcripts for podcast episodes from Substack's CDN
+
 For sources behind GFW (Substack, etc.), set your proxy:
 ```bash
 export HTTPS_PROXY=http://127.0.0.1:your-port
@@ -116,11 +135,22 @@ flowchart LR
     B --> C{Platform?}
 
     C -->|substack| D[Substack RSS]
+    C -->|lennysnewsletter| D2["Lenny's RSS
++ categorize
++ transcript CDN"]
     C -->|blog| E[Blog RSS]
+    C -->|lexfridman| E2["Lex Fridman
+YouTube API"]
     C -->|xiaoyuzhou| F{Xiaoyuzhou}
 
     D --> G[Parse XML]
+    D2 --> G
     E --> G
+    E2 --> G2["yt-dlp JSON
++ transcript"]
+
+    G --> L[Markdown + frontmatter]
+    G2 --> L
 
     F -->|no auth| H["Scrape web page
 Next.js __NEXT_DATA__"]
@@ -128,9 +158,10 @@ Next.js __NEXT_DATA__"]
 API + pagination"]
 
     H --> J[~15 recent eps]
-    I --> K[All episodes<br/>+ shownotes<br/>+ transcript API]
+    I --> K["All episodes
++ shownotes
++ transcript API"]
 
-    G --> L[Markdown + frontmatter]
     J --> L
     K --> L
 
@@ -146,17 +177,27 @@ dedup & incremental"]
 ```
 raw/social/
 ├── substack/
-│   └── drfeifei/
-│       └── 2025-11-10-from-words-to-worlds.md
+│   ├── drfeifei/
+│   │   └── 2025-11-10-from-words-to-worlds.md
+│   └── lenny/
+│       ├── articles/
+│       │   └── 2026-07-21-how-to-take-a-sabbatical.md
+│       ├── podcast/
+│       │   └── 2026-07-19-netflix-cpto-on-ai-and-the-future.md
+│       └── community/
+│           └── 2026-07-11-community-wisdom-negative-network.md
 ├── blog/
 │   └── lilianweng.github.io/
 │       └── 2026-07-04-harness.md
+├── lexfridman/
+│   └── lexfridman/
+│       └── 2026-05-06-ffmpeg.md
 └── xiaoyuzhou/
     └── 张小珺Jùn｜商业访谈录/
         └── 2026-07-22-147-robotics-foundation-model.md
 ```
 
-Each file is a Markdown document with full YAML frontmatter. Xiaoyuzhou episodes include **description + timeline + transcript** (via the official transcript API — no GPU, instant delivery).
+Each file is a Markdown document with full YAML frontmatter. Podcast episodes include **description + show notes + word-for-word transcript** (sourced from Substack CDN, YouTube API, or Xiaoyuzhou's official transcript API — no GPU, instant delivery).
 
 ---
 
@@ -182,6 +223,15 @@ sources:
   - name: "Sebastian Raschka"
     substack: "sebastianraschka"
 
+  # Substack with custom domain + categorization + transcripts
+  - name: "Lenny Rachitsky"
+    lennysnewsletter: true
+    feed: "https://www.lennysnewsletter.com/feed"
+
+  # Podcasts with transcripts
+  - name: "Lex Fridman Podcast"
+    lexfridman: true
+
   # Independent blogs (any RSS/Atom feed)
   - name: "Lilian Weng"
     blog: "https://lilianweng.github.io/index.xml"
@@ -199,6 +249,8 @@ sources:
 | Field | Format | Example |
 |-------|--------|---------|
 | `substack` | Subdomain | `drfeifei` → `drfeifei.substack.com` |
+| `lennysnewsletter` | `true` (uses auto-categorization + transcripts) | Requires `feed` field for custom domain |
+| `lexfridman` | `true` (fetches latest episodes with transcripts) | — |
 | `blog` | Full RSS/Atom URL | `https://example.com/feed.xml` |
 | `xiaoyuzhou` | Podcast PID | String after `podcast/` in the URL |
 
@@ -213,7 +265,7 @@ This is a **community-curated** Awesome List. Know a great AI blog, newsletter, 
 Ground rules:
 - The source must have a track record of **original** thinking — not just news or link roundups
 - One source per line, commented out, with a brief description of who they are
-- Substack entries use the subdomain only; Xiaoyuzhou entries use the podcast PID
+- Substack entries use the subdomain only (use `lennysnewsletter` for Lenny's Newsletter with categorization); Xiaoyuzhou entries use the podcast PID
 
 ---
 
